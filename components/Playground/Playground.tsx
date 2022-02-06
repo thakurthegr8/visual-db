@@ -10,7 +10,7 @@ const defaultTableSetterPairState = {
 const Sidebar: React.FC = ({ children }) => {
   return <div className="column-layout border-r border-gray-300 ">{children}</div>
 }
-export const TableContext = createContext<tableSetterPair>(defaultTableSetterPairState);
+export const TableContext = createContext<tableSetterPair>({} as tableSetterPair);
 const Playground = () => {
   const addTable = () => {
     const ntable: tableSchema = newTable(tables.length);

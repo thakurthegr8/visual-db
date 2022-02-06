@@ -16,5 +16,5 @@ export type tableSchema = {
 };
 export interface tableSetterPair {
   tables: tableSchema[];
-  setTables?: (tables: tableSchema[]) => void;
+  addNewTables: (tables: tableSchema[]) => void ;
 }

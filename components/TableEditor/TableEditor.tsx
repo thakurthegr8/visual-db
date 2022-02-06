@@ -53,4 +53,4 @@ const TableEditor: React.FC<Props> = ({ data }) => {
     </div>
   );
 };
-export default memo(TableEditor);
+export default TableEditor;
