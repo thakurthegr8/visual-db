@@ -1,0 +1,9 @@
+.main{
+    @apply fixed bg-black left-0 right-0 z-30 text-white py-3;
+}
+.wrapper{
+    @apply container mx-auto;
+}
+.logoText{
+    @apply text-lg font-semibold;
+}

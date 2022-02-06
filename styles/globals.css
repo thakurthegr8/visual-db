@@ -1,3 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+  .btn{
+    @apply px-4 py-2 shadow-md text-center  font-semibold active:scale-95 rounded transition-all text-sm ;
+  }
+  .btn-blue{
+    @apply bg-blue-500 active:bg-blue-600 text-white;
+}
+.btn-red{
+  @apply bg-red-500 active:bg-red-600 text-white;
+}
+.btn-green{
+  @apply bg-green-500 active:bg-green-600 text-white;
+}
+.btn-gray{
+  @apply bg-gray-500 active:bg-gray-600 text-white;
+}
+.btn-gray-light{
+  @apply bg-gray-50 active:bg-gray-100 text-white;
+}
+.column-layout{
+  @apply flex flex-col;
+}
+}
+
 html,
 body {
   padding: 0;
@@ -13,4 +41,17 @@ a {
 
 * {
   box-sizing: border-box;
+}
+.styled-scrollbar::-webkit-scrollbar {
+  @apply w-1.5;
+}
+.styled-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-500 rounded-full;
+}
+
+.styled-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-600;
+}
+.styled-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-200 rounded-full;
 }
