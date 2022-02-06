@@ -1,4 +1,6 @@
 import { columnSchema, tableSchema } from "../types/Table";
+import { Key } from "../elements/Icons/Icons";
+import React from "react";
 
 export const dataTypes: string[] = [
   "bigint",
@@ -31,9 +33,13 @@ export const dataTypes: string[] = [
   "tinyint",
   "uuid",
   "varchar",
-  "year"
+  "year",
 ];
-
+export const keyTypes: { type: string; icon: React.FC }[] = [
+  { type: "primary key", icon: Key },
+  { type: "unique key", icon: Key },
+  { type: "none", icon: Key },
+];
 export const newTable: (id: number) => tableSchema = (id) => {
   return {
     id: id,
@@ -52,5 +58,5 @@ export const newColumn: (id: number) => columnSchema = (id) => {
     keyType: "none",
     autoIncrement: false,
     unsigned: false,
-  }
+  };
 };

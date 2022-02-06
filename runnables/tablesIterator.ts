@@ -26,6 +26,12 @@ export const getUpdatedTables = (
               nullable: !column.nullable,
             };
           }
+          else if (type === "keyType") {
+            return {
+              ...column,
+              keyType: value,
+            };
+          }
         }
         return column;
       });
