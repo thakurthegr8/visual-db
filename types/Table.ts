@@ -15,6 +15,6 @@ export type tableSchema = {
   color: string;
 };
 export interface tableSetterPair {
-  tables: tableSchema[];
-  addNewTables: (tables: tableSchema[]) => void ;
+  database: tableSchema[];
+  updateDatabase: (tables: tableSchema[]) => void ;
 }
