@@ -1,4 +1,5 @@
 export type columnSchema = {
+  [key:string]:any;
   id: number;
   name: string;
   dataType: string;

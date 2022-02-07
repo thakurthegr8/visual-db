@@ -43,15 +43,15 @@ const TableEditor: React.FC<Props> = ({ data }) => {
         </div>
       </div>
       <TableContext.Provider value={id}>
-      <div className="column-layout divide-y  transition-all text-xs">
-        {
-          columns.map((item, key) => <Column key={key} item={item} />)
-        }
-      </div>
+        <div className="column-layout divide-y  transition-all text-xs">
+          {
+            columns.map((item, key) => <Column key={key} item={item} />)
+          }
+        </div>
       </TableContext.Provider>
       <div className="flex justify-between items-center px-2 py-2">
         <button className="btn shadow-none hover:bg-gray-200 text-gray-600"><ColorSwatch /></button>
-        <button onClick={addColumn} className="btn border border-black shadow-none active:transform-none active:bg-black active:text-white hover:bg-gray-200  ">Add Column</button>
+        <button onClick={addColumn} className="btn border bg-fuchsia-500 text-white border-fuchsia-900 rounded-full shadow-none active:transform-none active:bg-fuchsia-900 active:text-white hover:bg-fuchsia-600">Add Column</button>
       </div>
     </div>
   );

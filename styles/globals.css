@@ -46,12 +46,12 @@ a {
   @apply w-1.5;
 }
 .styled-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-gray-500 rounded-full;
+  @apply bg-slate-500 rounded-full;
 }
 
 .styled-scrollbar::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-600;
+  @apply bg-slate-400;
 }
 .styled-scrollbar::-webkit-scrollbar-track {
-  @apply bg-gray-200 rounded-full;
+  @apply bg-slate-800 rounded-full;
 }

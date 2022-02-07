@@ -32,7 +32,18 @@ export const getUpdatedTables = (
               keyType: value,
             };
           }
+          else if (type === "autoIncrement") {
+            return {
+              ...column,
+              autoIncrement: !column.autoIncrement,
+            };
+          }
+          return {
+            ...column,
+            unsigned: !column.unsigned,
+          };
         }
+        
         return column;
       });
       return {
