@@ -35,14 +35,14 @@ export const dataTypes: string[] = [
   "year",
 ];
 
-export const colors= [
+export const colors = [
   "#5800FF",
   "#E900FF",
   "#FFC600",
   "#FF1700",
   "#00EAD3",
   "#64DFDF",
-  "#FF5200"
+  "#FF5200",
 ];
 export const transitionDefaults = {
   enter: "transition duration-100 ease-out",
@@ -80,4 +80,12 @@ export const newColumn: (id: number) => columnSchema = (id) => {
     autoIncrement: false,
     unsigned: false,
   };
+};
+export const verticalTransition = {
+  enter: "transition duration-100 ease-out",
+  enterFrom: "transform scale-y-95 opacity-0",
+  enterTo: "transform scale-y-100 opacity-100",
+  leave: "transition duration-75 ease-out",
+  leaveFrom: "transform scale-y-100 opacity-100",
+  leaveTo: "transform scale-y-95 opacity-0",
 };

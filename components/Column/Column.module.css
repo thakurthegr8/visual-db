@@ -1,0 +1,24 @@
+.main{
+    @apply p-2 hover:bg-gray-100 dark:hover:bg-black dark:hover:bg-opacity-20 space-x-4 flex items-center justify-around;
+}
+.columnNameEditor{
+    @apply max-w-[4rem] dark:bg-black dark:bg-opacity-30 dark:text-white p-1 rounded outline-none focus:ring-2 focus:ring-offset-blue-600;
+}
+.nullableBaseStyle{
+    @apply font-semibold p-2 rounded flex justify-center items-center  text-center shadow-none;
+}
+.isNullable{
+    @apply text-white bg-blue-500 cursor-pointer select-none rounded-full hover:bg-blue-600;
+}
+.isNotNullable{
+    @apply text-black dark:text-white;
+}
+.keyTypeBaseStyle{
+    @apply capitalize py-1 flex items-center cursor-pointer rounded font-semibold  flex-1 px-2 hover:bg-slate-700 justify-between w-full;
+}
+.constraintTypeBaseStyle{
+    @apply capitalize  flex items-center cursor-pointer rounded font-semibold  flex-1 px-2 hover:bg-slate-700 justify-between;
+}
+.deleteColumnButton{
+    @apply capitalize text-red-500 bg-red-300 bg-opacity-10  flex items-center cursor-pointer rounded font-semibold  flex-1 px-2 hover:bg-slate-700 justify-between;
+}
