@@ -1,6 +1,6 @@
 import React, { memo, useContext, useState } from 'react';
 import { tableSchema, tableSetterPair } from '../../types/Table';
-import { Actions, Key } from '../../elements/Icons/Icons';
+import { Actions, Key, Trash } from '../../elements/Icons/Icons';
 import { columnSchema } from '../../types/Table';
 import { CustomListBox } from '../CustomListBox/CustomListBox';
 import { DatabaseContext } from '../Playground/Playground';
@@ -35,16 +35,30 @@ const Column: React.FC<Props> = ({ item }) => {
         const updatedTables: tableSchema[] = getUpdatedTables(database, tableId, id, type, type);
         updateDatabase(updatedTables);
     }
-    return (<div className="p-2 hover:bg-gray-100 space-x-4 flex items-center justify-around">
+    const deleteColumn = () => {
+        const updatedTables = database.map(table => {
+            if (table.id === tableId) {
+                const columns = table.columns.filter(column => column.id !== id);
+                return {
+                    ...table,
+                    columns: columns
+                }
+            }
+            return table;
+        });
+        updateDatabase(updatedTables);
+        console.log("deleted column "+id);
+    }
+    return (<div className="p-2 hover:bg-gray-100 dark:hover:bg-black dark:hover:bg-opacity-20 space-x-4 flex items-center justify-around">
         <input
             type="text"
             placeholder={name}
             value={name}
             onChange={e => changeColumnName(e.target.value)}
-            className=" max-w-[4rem] p-1 rounded outline-none focus:ring-2 focus:ring-offset-blue-600"
+            className=" max-w-[4rem] dark:bg-black dark:bg-opacity-30 dark:text-white p-1 rounded outline-none focus:ring-2 focus:ring-offset-blue-600"
         />
         <CustomListBox columnId={id} dataType={dataType} />
-        <label htmlFor={`table_${tableId}_column_${id}_nullable`} className={`${nullable ? "text-white bg-blue-500 rounded-full hover:bg-blue-600" : "text-black"} font-semibold p-2 rounded flex justify-center items-center  text-center shadow-none  `} title="Nullable!">N</label>
+        <label htmlFor={`table_${tableId}_column_${id}_nullable`} className={`${nullable ? "text-white bg-blue-500 rounded-full hover:bg-blue-600" : "text-black dark:text-white"} font-semibold p-2 rounded flex justify-center items-center  text-center shadow-none  `} title="Nullable!">N</label>
         <input className="hidden" type="checkbox" checked={nullable} id={`table_${tableId}_column_${id}_nullable`} name={`table_${tableId}_column_${id}`} onChange={() => { updateNullable() }} />
         <DropDown title="Index Type" mainIcon={Key}>
             {keyTypes.map(({ type, Icon }, index) => <Menu.Item key={index} as="div" className={`capitalize py-1 flex items-center cursor-pointer rounded font-semibold  flex-1 px-2 hover:bg-slate-700 justify-between ${type === keyType && "bg-slate-800"}  w-full`} onClick={() => updateKey(type)}>{type}<Icon />
@@ -55,6 +69,9 @@ const Column: React.FC<Props> = ({ item }) => {
                 <label htmlFor={`table_${tableId}_column_${id}_${type}`} className="cursor-pointer">{name}</label>
                 <input type="checkbox" id={`table_${tableId}_column_${id}_${type}`} checked={item[type]} onChange={() => updateConstraints(type)} className="hidden" />
             </Menu.Item>)}
+            <Menu.Item onClick={deleteColumn} as="button" className="capitalize text-red-500 bg-red-300 bg-opacity-10  flex items-center cursor-pointer rounded font-semibold  flex-1 px-2 hover:bg-slate-700 justify-between">
+                Delete Column <Trash/>
+            </Menu.Item>
         </DropDown>
     </div>);
 };

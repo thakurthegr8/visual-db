@@ -19,7 +19,7 @@ export const CustomListBox: React.FC<Props> = ({ columnId, dataType }) => {
   return (
     <div className="max-w-[4rem]  relative inline">
       <Listbox value={selectedDataType} onChange={setSelectedDataType}>
-        <Listbox.Button className="focus:ring-2 max-w-[4rem] overflow-hidden focus:ring-offset-blue-600 p-1 rounded bg-white">
+        <Listbox.Button className="focus:ring-2 max-w-[4rem] dark:bg-black dark:bg-opacity-30 dark:text-white overflow-hidden focus:ring-offset-blue-600 p-1 rounded bg-white">
           {selectedDataType}
         </Listbox.Button>
 

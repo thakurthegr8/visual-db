@@ -1,6 +1,5 @@
 import { columnSchema, tableSchema } from "../types/Table";
 import { Key } from "../elements/Icons/Icons";
-import React from "react";
 
 export const dataTypes: string[] = [
   "bigint",
@@ -34,6 +33,16 @@ export const dataTypes: string[] = [
   "uuid",
   "varchar",
   "year",
+];
+
+export const colors= [
+  "#5800FF",
+  "#E900FF",
+  "#FFC600",
+  "#FF1700",
+  "#00EAD3",
+  "#64DFDF",
+  "#FF5200"
 ];
 export const transitionDefaults = {
   enter: "transition duration-100 ease-out",
