@@ -54,7 +54,7 @@ const DialogBox: React.FC<Props> = ({ isDialogOpen, setDialogOpen,createTableQue
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <h1>Create Table</h1>
-                                    <div className="bg-black rounded p-2 text-monospace">
+                                    <div className="bg-black text-white rounded p-2 text-monospace">
                                     <span>{createTableQuery()}</span>
                                     </div>
                                 </div>
