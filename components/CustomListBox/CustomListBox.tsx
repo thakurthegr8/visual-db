@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, Fragment } from "react";
-import { Listbox, Transition } from "@headlessui/react";
+import { Listbox } from "@headlessui/react";
 import { dataTypes } from "../../default_objects/table_defaults";
 import { DatabaseContext } from "../Playground/Playground";
 import { TableContext } from "../TableEditor/TableEditor";
