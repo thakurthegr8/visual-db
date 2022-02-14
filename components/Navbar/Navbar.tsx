@@ -6,7 +6,7 @@ export const Navbar: React.FC = () => {
     <div className={styles.main}>
       <div className={styles.wrapper}>
         <span className={styles.logoText}>Visual-DB</span>
-        <ul><li><button className="btn bg-purple-500 font-semibold">Try Visual-DB</button></li></ul>
+        {/* <ul><li><button className="btn bg-purple-500 font-semibold">Try Visual-DB</button></li></ul> */}
       </div>
     </div>
   );

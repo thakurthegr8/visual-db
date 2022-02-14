@@ -1,12 +1,15 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import Playground from '../components/Playground/Playground'
 import styles from '../styles/Home.module.css';
+
+const ImageLoader = ()=>{
+  return `https://dl.dropboxusercontent.com/s/s6b9yf2zxvl7a2d/https___visual-db.netlify.app.png?dl=0`;
+}
 
 const Home: NextPage = () => {
   return (
-    <main className="pt-16 px-2 md:px-0">
+    <main className="pt-16 px-4 md:px-0">
       <section className="pt-16 sm:pt-24">
         <div className="flex flex-col dark:text-white mx-auto container space-y-4">
           <div className="flex flex-col md:justify-center md:items-center space-y-4">
@@ -15,7 +18,7 @@ const Home: NextPage = () => {
             <Link href="/playground"><button className="btn sm:max-w-[50%] font-semibold text-xl bg-green-500">Get Started</button></Link>
           </div>
           <div className="flex justify-center ">
-            <Image className="" src="/images/jpgs/hero.png  " alt="visual-db-hero" width={1000} height={500} objectFit="contain" />
+            <Image priority={true} quality={100} className="" src={ImageLoader()} alt="visual-db-hero" width={1000} height={500} objectFit="contain" />
           </div>
         </div>
       </section>
