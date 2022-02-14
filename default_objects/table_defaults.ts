@@ -66,7 +66,7 @@ export const newTable: (id: number) => tableSchema = (id) => {
     id: id,
     name: `table_${id}`,
     columns: [],
-    color: "blue",
+    color: "#5800FF",
   };
 };
 

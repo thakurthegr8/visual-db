@@ -1,10 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
 
 @layer components {
   .btn {
-    @apply px-4 py-2 shadow-md text-center  font-semibold active:scale-95 rounded transition-all text-sm;
+    @apply px-4 py-2 shadow-md text-center font-normal active:scale-95 rounded transition-all text-sm;
   }
   .btn-blue {
     @apply bg-blue-500 active:bg-blue-600 text-white;
@@ -30,9 +31,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  @apply dark:bg-accent-gray bg-gray-200;
+  font-family: 'IBM Plex Sans', sans-serif;
+  @apply dark:bg-black bg-gray-100;
 }
 
 a {
@@ -43,6 +43,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
 .styled-scrollbar::-webkit-scrollbar {
   @apply w-1.5;
 }
@@ -54,5 +55,19 @@ a {
   @apply bg-slate-400;
 }
 .styled-scrollbar::-webkit-scrollbar-track {
+  @apply bg-slate-800 rounded-full;
+}
+
+body::-webkit-scrollbar {
+  @apply w-1.5;
+}
+body::-webkit-scrollbar-thumb {
+  @apply bg-accent-gray-light rounded-full;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
+body::-webkit-scrollbar-track {
   @apply bg-slate-800 rounded-full;
 }

@@ -2,7 +2,7 @@
     @apply fixed bg-black bg-opacity-90 backdrop-blur-xl left-0 right-0 z-30 text-white py-3;
 }
 .wrapper{
-    @apply container mx-auto;
+    @apply container  mx-auto px-4 md:px-0 flex justify-between items-center;
 }
 .logoText{
     @apply text-lg font-semibold;

@@ -3,9 +3,9 @@ import { Dialog, Transition } from '@headlessui/react'
 interface Props {
     isDialogOpen: boolean;
     setDialogOpen: (isDialogOpen: boolean) => void;
-    createTableQuery:()=>string;
+    children:any;
 }
-const DialogBox: React.FC<Props> = ({ isDialogOpen, setDialogOpen,createTableQuery }) => {
+const DialogBox: React.FC<Props> = ({ isDialogOpen, setDialogOpen,children }) => {
     const closeModal = () => {
         setDialogOpen(false);
     }
@@ -45,19 +45,8 @@ const DialogBox: React.FC<Props> = ({ isDialogOpen, setDialogOpen,createTableQue
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <div className="inline-block border space-y-2 dark:border-accent-gray-light w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-accent-gray dark:text-white shadow-xl rounded-2xl">
-                                <Dialog.Title
-                                    as="h3"
-                                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
-                                >
-                                    Table Queries
-                                </Dialog.Title>
-                                <div className="mt-2">
-                                    <h1>Create Table</h1>
-                                    <div className="bg-black rounded p-2 text-monospace">
-                                    <span>{createTableQuery()}</span>
-                                    </div>
-                                </div>
+                            <div className="inline-block border space-y-3 dark:border-accent-gray-light w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-accent-gray dark:text-white shadow-xl rounded-2xl">
+                                {children}
                             </div>
                         </Transition.Child>
                     </div>
