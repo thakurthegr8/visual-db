@@ -60,17 +60,17 @@ export const TableModel: React.FC<Props> = ({ tableData }) => {
                 <DialogBox isDialogOpen={isDialogOpen} setDialogOpen={setDialogOpen} >
                     <Dialog.Title
                         as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
+                        className="text-lg font-medium leading-6 text-gray-900  dark:text-white"
                     >
                         Table Queries
                     </Dialog.Title>
                     <div className="flex flex-col space-y-2">
                         <h1>Create Table</h1>
-                        <div className="bg-black rounded p-2 text-monospace">
+                        <div className="bg-black rounded text-white p-2 text-monospace">
                             <span>{createTableQuery()}</span>
                         </div>
                         <h1>Table insertion</h1>
-                        <div className="bg-black rounded p-2 text-monospace gap-4 flex flex-col">
+                        <div className="bg-black rounded p-2 text-white text-monospace gap-4 flex flex-col">
                             <span>{insertIntoTable()}</span>
                             {/* {
                                 columnValueFields.map((columnField, index) =>

@@ -37,7 +37,7 @@ const Playground = () => {
           {database.map(item => <TableEditor key={item.id} data={item} />)}
         </DatabaseContext.Provider>
       </Sidebar>
-      <Masonry breakpointCols={cols} className="flex col-span-3 gap-2 p-2 bg-accent-gray" columnClassName="flex flex-col gap-y-2">
+      <Masonry breakpointCols={cols} className="flex col-span-3 gap-2 p-2 dark:bg-accent-gray" columnClassName="flex flex-col gap-y-2">
         {
           database.map((table, index) => <TableModel key={index} tableData={table} />)
         }
