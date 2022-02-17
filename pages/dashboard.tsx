@@ -15,7 +15,7 @@ const dashboard: React.FC<Props> = ({ databases }) => {
                     <div>
                         <Link href="/playground"><button className="btn bg-rose-500 text-white text-base font-semibold float-right">New Diagram</button></Link>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {
                             databases.map(database => <Link key={database.id} href={`/playground?db_id=${database.id}`}>
                                 <div className="dark:text-white cursor-pointer active:scale-90 hover:bg-white hover:bg-opacity-10 border transition-all border-opacity-50 border-accent-gray-light rounded-xl p-4">{database.name}</div>
@@ -32,7 +32,7 @@ export default dashboard;
 
 
 export const getStaticProps: GetStaticProps = async () => {
-    const response = await fetch("http://localhost:3000/api/data");
+    const response = await fetch("http://localhost:3000/api/read");
     const databases = await response.json();
     return {
         props: {

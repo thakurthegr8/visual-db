@@ -24,3 +24,6 @@ export interface databaseApiSchema {
   name: string;
   id: string;
 }
+export interface ApiResponseMessage{
+  message:string;
+};
