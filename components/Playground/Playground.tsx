@@ -12,6 +12,7 @@ import Masonry from "react-masonry-css";
 
 interface Props {
   data: databaseApiSchema ;
+  demo?:boolean;
 }
 
 const saveDatabase = (
@@ -36,7 +37,7 @@ const Sidebar: React.FC = ({ children }) => {
 export const DatabaseContext = createContext<tableSetterPair>(
   {} as tableSetterPair
 );
-const Playground: React.FC<Props> = ({ data }) => {
+const Playground: React.FC<Props> = ({ data,demo }) => {
   const updateDatabase = (ntables: tableSchema[]) => {
     setDatabase(ntables);
   };
@@ -69,7 +70,7 @@ const Playground: React.FC<Props> = ({ data }) => {
             >
               {`Create table`}
             </button>
-            <button
+            {!demo && <button
               role="save table"
               className={`btn bg-white font-semibold text-black ${playgroundStyles.createTableButton}`}
               onClick={() =>
@@ -81,7 +82,7 @@ const Playground: React.FC<Props> = ({ data }) => {
               }
             >
               {`Save`}
-            </button>
+            </button>}
           </div>
         </div>
         <DatabaseContext.Provider value={{ database, updateDatabase }}>

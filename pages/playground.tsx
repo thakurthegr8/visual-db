@@ -1,7 +1,7 @@
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Playground from '../components/Playground/Playground';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { databaseApiSchema } from '../types/Table';
 interface Props {
     data: databaseApiSchema ;
@@ -9,7 +9,7 @@ interface Props {
 const playground: React.FC<Props> = ({ data }) => {
     return (
         <div className="pt-14">
-            <Playground data={data} />
+            <Playground data={data} demo={data == undefined ? true:false}/>
         </div>
     )
 }

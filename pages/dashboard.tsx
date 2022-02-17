@@ -5,8 +5,8 @@ import { databaseApiSchema } from '../types/Table';
 interface Props {
     databases: databaseApiSchema[]
 }
-const dashboard: React.FC<Props> = ({ databases }) => {
-
+const dashboard: React.FC<Props> = ({ databases= [] }) => {
+    const [db,setDB] = useState<databaseApiSchema[]>(databases ? databases : []);
     return (
         <section className="flex flex-col">
             <div className="text-white text-3xl  lg:text-5xl px-4 font-bold pt-24 pb-24 bg-green-500"><h1 className="mx-auto container">Your Diagrams</h1></div>
@@ -17,7 +17,7 @@ const dashboard: React.FC<Props> = ({ databases }) => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {
-                            databases.map(database => <Link key={database.id} href={`/playground?db_id=${database.id}`}>
+                             db.length > 0 &&db.map(database => <Link key={database.id} href={`/playground?db_id=${database.id}`}>
                                 <div className="dark:text-white cursor-pointer active:scale-90 hover:bg-white hover:bg-opacity-10 border transition-all border-opacity-50 border-accent-gray-light rounded-xl p-4">{database.name}</div>
                             </Link>)
                         }
@@ -32,7 +32,7 @@ export default dashboard;
 
 
 export const getStaticProps: GetStaticProps = async () => {
-    const response = await fetch("http://localhost:3000/api/read");
+    const response = await fetch("http://localhost:3000/api/data");
     const databases = await response.json();
     return {
         props: {
