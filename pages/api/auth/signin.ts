@@ -10,7 +10,8 @@ const handler = (req: NextApiRequest, res: NextApiResponse<any>) => {
   signInWithEmailAndPassword(auth, `${email}`, `${password}`)
     .then((cred) => {
       console.log("user created", cred.user);
-      res.status(200).json({ user: cred.user });
+      const {stsTokenManager}:any = cred.user;
+      res.status(200).json({ user: stsTokenManager });
     })
     .catch((err) => {
       res.status(500).json({ message: err });
