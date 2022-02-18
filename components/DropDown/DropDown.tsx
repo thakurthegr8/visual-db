@@ -5,8 +5,9 @@ interface Props {
     children: any;
     title: string;
     mainIcon: React.FC;
+    alignment:"top" | "bottom" | "left" | "right";
 }
-const DropDown: React.FC<Props> = ({ children, title, mainIcon }) => {
+const DropDown: React.FC<Props> = ({ children, title, mainIcon,alignment }) => {
     return (
         <>
             <Menu as="div" className="md:relative">
@@ -15,7 +16,7 @@ const DropDown: React.FC<Props> = ({ children, title, mainIcon }) => {
                     {...transitionDefaults}
                     as={Fragment}
                 >
-                    <Menu.Items as="div" className="absolute flex flex-col flex-grow z-10 mx-10 md:mx-0 md:top-0 left-0 right-0 md:left-14 border-black border float-right bg-slate-900 dark:bg-accent-gray text-white p-2 rounded transition space-y-2 shadow-md text-sm min-w-[16rem] min-h-[10rem] outline-none ">
+                    <Menu.Items as="div" className={`absolute flex flex-col flex-grow z-10 border-black border float-right bg-slate-900 dark:bg-accent-gray text-white p-2 rounded transition space-y-2 shadow-md text-sm min-w-[16rem] min-h-[10rem] outline-none  mx-10 md:mx-0  right-0 ${alignment !== "bottom" ? "left-0 md:left-14 md:top-0":"top-8"}`}>
                         <h1 className="uppercase font-semibold">{title}</h1>
                         {children}
                     </Menu.Items>

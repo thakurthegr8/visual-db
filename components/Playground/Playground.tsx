@@ -20,11 +20,18 @@ const saveDatabase = (
   name: string,
   database: string
 ) => {
+  console.log(database);
   fetch(
-    `http://localhost:3000/api/update?id=${id}&name=${name}&database=${database}`
-  )
-    .then((res) => res.json())
-    .then((data) => console.log(data));
+    `http://localhost:3000/api/update`,{
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({id:id, name:name,database:database})
+    }
+  ).then(res=>res.json())
+  .then(data=>console.log(data));
 };
 
 const Sidebar: React.FC = ({ children }) => {
@@ -76,7 +83,7 @@ const Playground: React.FC<Props> = ({ data,demo }) => {
               onClick={() =>
                 saveDatabase(
                   data.id,
-                  (data.name).toString(),
+                  data.name,
                   JSON.stringify(database)
                 )
               }

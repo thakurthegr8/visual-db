@@ -57,7 +57,7 @@ const TableEditor: React.FC<Props> = ({ data }) => {
               </div>
             </TableContext.Provider>
             <div className={tableEditorStyles.tableActions}>
-              <DropDown title="Table Colors" mainIcon={ColorSwatch}>
+              <DropDown alignment="right" title="Table Colors" mainIcon={ColorSwatch}>
                 <div className="grid grid-cols-4 gap-2">{colors.map((item, index) => <Menu.Item onClick={() => updateColor(item, database, updateDatabase, id)} as="button" className={tableEditorStyles.colorSelectorButton} style={colorGenerator(item)} key={index}></Menu.Item>)}</div>
               </DropDown>
               <button onClick={() => addColumn(database, updateDatabase, columns, id)} className={`btn ${tableEditorStyles.addColumnButton}`}>Add Column</button>
