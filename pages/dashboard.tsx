@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import Link from "next/link";
 import { databaseApiSchema } from '../types/Table';
 interface Props {
@@ -31,8 +31,9 @@ const dashboard: React.FC<Props> = ({ databases= [] }) => {
 export default dashboard;
 
 
-export const getStaticProps: GetStaticProps = async () => {
-    const response = await fetch("http://localhost:3000/api/data");
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const {uid} = context.query;
+    const response = await fetch(`http://localhost:3000/api/data/${uid}`);
     const databases = await response.json();
     return {
         props: {
