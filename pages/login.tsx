@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import {useRouter} from "next/router";
-const signInUser = async (email: string, password: string, setUserData: (userData: any) => void) => {
-    try {
-        const res = await fetch(`http://localhost:3000/api/auth/signin?email=${email}&password=${password}`);
-        const userData = await res.json();
-        console.log(userData);
-        setUserData(userData);
-    } catch (err) {
-        console.log(err);
-        setUserData(err);
-    }
-}
+import { useRouter } from "next/router";
+import { signInWithEmlAndPwd } from '../runnables/firebase_api';
+
 const login = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -29,13 +20,15 @@ const login = () => {
                 }
             } else {
                 const { accessToken, expirationTime } = userData.user.stsTokenManager;
-                const {uid} = userData.user;
+                const { uid } = userData.user;
                 setLoginMessage((loginMessage) => ({ ...loginMessage, message: "Successfully logged in...", color: "#22c55e" }));
                 document.cookie = `vdb_user=${accessToken}`;
-                router.push(`/dashboard?uid=${uid}`);
+                document.cookie = `vdb_uid=${uid}`;
+                router.push(`/dashboard`);
             }
             setLoading(false);
         }
+        console.log(userData);
     }, [userData]);
     return (
         <div className="flex sm:justify-center sm:items-center h-screen fixed inset-0 ">
@@ -45,7 +38,7 @@ const login = () => {
                 <form className="flex flex-col space-y-2" autoSave="true" onSubmit={(e) => {
                     e.preventDefault();
                     setLoading(true);
-                    signInUser(email, password, setUserData);
+                    signInWithEmlAndPwd(email, password, setUserData);
                 }}>
                     <input required onChange={(e) => setEmail(e.target.value)} value={email} className="p-2 font-semibold transition focus:ring-1 focus:ring-green-400 bg-white focus:outline-none bg-opacity-20 rounded shadow-md border border-accent-gray-light border-opacity-50" type="email" placeholder="Enter email..." />
                     <input required onChange={(e) => setPassword(e.target.value)} value={password} className="p-2 font-semibold bg-white focus:ring-1 focus:ring-green-400 focus:outline-none bg-opacity-20 rounded shadow-md border border-accent-gray-light border-opacity-50" type="password" placeholder="Enter password..." />

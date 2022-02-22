@@ -1,23 +1,32 @@
+import { useContext } from 'react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from "../components/Navbar/Navbar"
 import styles from '../styles/Home.module.css';
+import { UserContext } from './_app';
 
 const ImageLoader = () => {
   return `https://dl.dropboxusercontent.com/s/s6b9yf2zxvl7a2d/https___visual-db.netlify.app.png?dl=0`;
 }
 
 const Home: NextPage = () => {
+  const { user } = useContext(UserContext);
   return (
     <>
       <Navbar>
-      <Link href="/login">
-          <button className="btn bg-pink-500 text-white">Login</button>
-        </Link>
-        <Link href="/register">
-          <button className="btn bg-purple-500 text-white font-semibold">Try Visual-db</button>
-        </Link>
+        {
+          user.isLoggedIn ? <Link href="/dashboard">
+            <button className="btn bg-fuchsia-500 text-white">Dashboard</button>
+          </Link> : <><Link href="/login">
+            <button className="btn bg-pink-500 text-white">Login</button>
+          </Link>
+            <Link href="/register">
+              <button className="btn bg-purple-500 text-white font-semibold">Try Visual-db</button>
+            </Link>
+          </>
+        }
+
       </Navbar>
       <main className="pt-16 px-4 md:px-0">
         <section className="pt-16 sm:pt-24">

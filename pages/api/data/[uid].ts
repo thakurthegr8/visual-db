@@ -2,14 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { initializeApp } from "firebase/app";
 import {
   collection,
-  doc,
-  getDocs,
   getFirestore,
   onSnapshot,
   query,
   where,
 } from "firebase/firestore";
-import { databaseApiSchema, tableSchema } from "../../../types/Table";
+import { databaseApiSchema } from "../../../types/Table";
 import firebaseConfig from "../../../fr-api-auth.json";
 
 const handler = (
