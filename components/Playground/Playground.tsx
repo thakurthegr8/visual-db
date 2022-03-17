@@ -9,11 +9,10 @@ import playgroundStyles from "./Playground.module.css";
 import { addTable } from "../../runnables/playground_runnables";
 import TableModel from "../TableModel/TableModel";
 import Masonry from "react-masonry-css";
+import { getDatabaseDataOnDbID } from "../../runnables/firebase_api";
+import { useRouter } from "next/router";
 
-interface Props {
-  data: databaseApiSchema ;
-  demo?:boolean;
-}
+
 
 const saveDatabase = (
   id: string ,
@@ -44,12 +43,13 @@ const Sidebar: React.FC = ({ children }) => {
 export const DatabaseContext = createContext<tableSetterPair>(
   {} as tableSetterPair
 );
-const Playground: React.FC<Props> = ({ data,demo }) => {
+const Playground: React.FC = (props) => {
   const updateDatabase = (ntables: tableSchema[]) => {
     setDatabase(ntables);
   };
   const [cols, setCols] = useState(1);
   const [database, setDatabase] = useState<tableSchema[]>([]);
+  const router = useRouter();
   useEffect(() => {
     if (window.innerWidth >= 768) {
       setCols(3);
@@ -58,8 +58,10 @@ const Playground: React.FC<Props> = ({ data,demo }) => {
     }
   }, []);
   useEffect(() => {
-    if (data) setDatabase(data.database);
-  }, [data]);
+    const qid:string = router.query.db_id as string;
+    if(qid)
+    getDatabaseDataOnDbID(qid, setDatabase);
+  }, [database]);
 
   useEffect(() => {
     console.log(JSON.stringify(database));
@@ -77,19 +79,12 @@ const Playground: React.FC<Props> = ({ data,demo }) => {
             >
               {`Create table`}
             </button>
-            {!demo && <button
+            <button
               role="save table"
               className={`btn bg-white font-semibold text-black ${playgroundStyles.createTableButton}`}
-              onClick={() =>
-                saveDatabase(
-                  data.id,
-                  data.name,
-                  JSON.stringify(database)
-                )
-              }
             >
               {`Save`}
-            </button>}
+            </button>
           </div>
         </div>
         <DatabaseContext.Provider value={{ database, updateDatabase }}>

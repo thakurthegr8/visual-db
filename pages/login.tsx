@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/router";
-import { signInWithEmlAndPwd } from '../runnables/firebase_api';
+import { useSignInWithEmlAndPwd } from '../runnables/firebase_api';
 
 const login = () => {
     const [email, setEmail] = useState<string>("");
@@ -10,6 +10,9 @@ const login = () => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     useEffect(() => {
+        if(email.length > 0 && password.length > 0 && loading){
+            
+        }
         if (userData) {
             if (Object.keys(userData).includes("message")) {
                 const { code } = userData.message;
@@ -38,7 +41,6 @@ const login = () => {
                 <form className="flex flex-col space-y-2" autoSave="true" onSubmit={(e) => {
                     e.preventDefault();
                     setLoading(true);
-                    signInWithEmlAndPwd(email, password, setUserData);
                 }}>
                     <input required onChange={(e) => setEmail(e.target.value)} value={email} className="p-2 font-semibold transition focus:ring-1 focus:ring-green-400 bg-white focus:outline-none bg-opacity-20 rounded shadow-md border border-accent-gray-light border-opacity-50" type="email" placeholder="Enter email..." />
                     <input required onChange={(e) => setPassword(e.target.value)} value={password} className="p-2 font-semibold bg-white focus:ring-1 focus:ring-green-400 focus:outline-none bg-opacity-20 rounded shadow-md border border-accent-gray-light border-opacity-50" type="password" placeholder="Enter password..." />

@@ -6,20 +6,21 @@ import DropDown from '../components/DropDown/DropDown';
 import { ColorSwatch } from '../elements/Icons/Icons';
 import { colors } from '../default_objects/table_defaults';
 import { Menu } from '@headlessui/react';
-import { getUserDataOnUID } from '../runnables/firebase_api';
+import { useUserDataOnUID } from '../runnables/firebase_api';
 import { generateCookies } from '../generators/generators_cookies';
 import { UserContext } from './_app';
 import { useRouter } from 'next/router';
-const dashboard: React.FC = () => {
+const Dashboard = () => {
     const [db, setDB] = useState<databaseApiSchema[]>([] as databaseApiSchema[]);
     const { user, updateUser } = useContext(UserContext);
+    const userData = useUserDataOnUID(user.uid);
     const router = useRouter();
     useEffect(() => {
         if (document.cookie.length == 0) {
             router.push("/");
         }
-        getUserDataOnUID(user.uid, setDB);
-    }, [user])
+        setDB(userData);
+    }, [user, userData]);
     return (
         <>
             <Navbar>
@@ -53,5 +54,5 @@ const dashboard: React.FC = () => {
         </>
     )
 }
-export default dashboard;
+export default Dashboard;
 
