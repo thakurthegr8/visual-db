@@ -61,7 +61,7 @@ const Playground: React.FC = (props) => {
     const qid:string = router.query.db_id as string;
     if(qid)
     getDatabaseDataOnDbID(qid, setDatabase);
-  }, [database]);
+  }, []);
 
   useEffect(() => {
     console.log(JSON.stringify(database));
