@@ -2,9 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['dl.dropboxusercontent.com'],
+    domains: ["dl.dropboxusercontent.com"],
   },
-}
+};
 
-
-module.exports = nextConfig
+module.exports = nextConfig;

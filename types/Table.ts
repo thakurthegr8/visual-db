@@ -1,5 +1,5 @@
 export type columnSchema = {
-  [key:string]:any;
+  [key: string]: any;
   id: number;
   name: string;
   dataType: string;
@@ -17,5 +17,13 @@ export type tableSchema = {
 };
 export interface tableSetterPair {
   database: tableSchema[];
-  updateDatabase: (tables: tableSchema[]) => void ;
+  updateDatabase: (tables: tableSchema[]) => void;
 }
+export interface databaseApiSchema {
+  database: tableSchema[];
+  name: string;
+  id: string;
+}
+export interface ApiResponseMessage{
+  message:string;
+};

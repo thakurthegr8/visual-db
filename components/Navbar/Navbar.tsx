@@ -1,13 +1,20 @@
 import React from "react";
+import Link from "next/link";
 import styles from "./styles.module.css";
 
-export const Navbar: React.FC = () => {
+
+interface Props{
+  children:any;
+}
+
+ const Navbar: React.FC<Props> = ({children}) => {
   return (
     <div className={styles.main}>
       <div className={styles.wrapper}>
         <span className={styles.logoText}>Visual-DB</span>
-        {/* <ul><li><button className="btn bg-purple-500 font-semibold">Try Visual-DB</button></li></ul> */}
+        <div className="space-x-2">{children}</div>
       </div>
     </div>
   );
 };
+export default Navbar

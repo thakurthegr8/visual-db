@@ -31,11 +31,11 @@ const Column: React.FC<Props> = ({ item }) => {
         <CustomListBox columnId={id} dataType={dataType} />
         <label htmlFor={`table_${tableId}_column_${id}_nullable`} className={`${nullable ? columnStyles.isNullable : columnStyles.isNotNullable} ${columnStyles.nullableBaseStyle}`} title="Nullable!">N</label>
         <input className="hidden" type="checkbox" checked={nullable} id={`table_${tableId}_column_${id}_nullable`} name={`table_${tableId}_column_${id}`} onChange={() => updateNullable(database, updateDatabase, tableId, id)} />
-        <DropDown title="Index Type" mainIcon={Key}>
+        <DropDown alignment="right" title="Index Type" mainIcon={Key}>
             {keyTypes.map(({ type, Icon }, index) => <Menu.Item key={index} as="div" className={`${columnStyles.keyTypeBaseStyle} ${type === keyType && "bg-slate-800"} `} onClick={() => updateKey(type, database, updateDatabase, tableId, id)}>{type}<Icon />
             </Menu.Item>)}
         </DropDown>
-        <DropDown title="Column Options" mainIcon={Actions}>
+        <DropDown alignment="right" title="Column Options" mainIcon={Actions}>
             {constraintTypes.map(({ type, name }, index) => <Menu.Item key={index} as="div" className={`${columnStyles.constraintTypeBaseStyle} ${item[type] && "bg-slate-800"}  w-full`}>
                 <label htmlFor={`table_${tableId}_column_${id}_${type}`} className="cursor-pointer">{name}</label>
                 <input type="checkbox" id={`table_${tableId}_column_${id}_${type}`} checked={item[type]} onChange={() => updateConstraints(type, database, updateDatabase, tableId, id)} className="hidden" />
