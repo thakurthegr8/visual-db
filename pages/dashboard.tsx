@@ -9,6 +9,7 @@ import { Actions } from "../elements/Icons/Icons";
 import { useUserDataOnUID } from "../runnables/firebase_api";
 import { UserContext } from "./_app";
 import { addDatabase, deleteDatabase, saveDatabase } from "../runnables/common_runnables";
+import { GetServerSideProps } from "next";
 const Dashboard = () => {
   const [db, setDB] = useState<databaseApiSchema[]>([] as databaseApiSchema[]);
   const [isDialogBoxOpen, setDialogBoxOpen] = useState<boolean>(false);
@@ -75,28 +76,6 @@ const Dashboard = () => {
                       >
                         <Actions />
                       </button>
-                      <DialogBox
-                        isDialogOpen={isDialogBoxOpen}
-                        setDialogOpen={setDialogBoxOpen}
-                      >
-                        <Dialog.Title
-                          as="h3"
-                          className="text-lg font-medium leading-6 text-gray-900 flex justify-between  dark:text-white"
-                        >
-                          Database Actions
-                        </Dialog.Title>
-                        <button className="btn btn-red" >{loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-red-400 border-t-white w-8 h-8"></span> : `Delete`}</button>
-                        <div className="flex flex-col space-y-2">
-                          <input
-                            onChange={(e) => setDbName(e.target.value)}
-                            type="text"
-                            value={dbName}
-                            placeholder={`previous name : ${name}`}
-                            className="text-black"
-                          />
-                        </div>
-                        <button className="btn btn-blue" onClick={() => saveDatabase(id, dbName, JSON.stringify(database))}>Save</button>
-                      </DialogBox>
                     </div>
                     <Link href={`/playground?db_id=${id}`}>
                       <span>{name}</span>
@@ -114,3 +93,11 @@ const Dashboard = () => {
   );
 };
 export default memo(Dashboard);
+
+export const getServerSideProps:GetServerSideProps = async ()=>{
+  return {
+    props:{
+      
+    }
+  }
+}
