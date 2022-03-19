@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { useSignInWithEmlAndPwd } from "../runnables/firebase_api";
 import {
@@ -6,11 +6,13 @@ import {
   isDev,
   productionUrl,
 } from "../default_objects/default_strings";
+import { UserContext } from "./_app";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [userData, setUserData] = useState<any>(null);
+  const {updateUser} = useContext(UserContext);
   const [loginMessage, setLoginMessage] = useState<{
     message: string;
     color: string;
@@ -61,6 +63,10 @@ const Login = () => {
         }));
         document.cookie = `vdb_user=${accessToken}`;
         document.cookie = `vdb_uid=${uid}`;
+        updateUser({
+          uid,
+          isLoggedIn:true
+        });
         router.push(`/dashboard`);
       }
       setLoading(false);
