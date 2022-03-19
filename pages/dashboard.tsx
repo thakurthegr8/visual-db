@@ -22,6 +22,7 @@ const Dashboard = () => {
     if (document.cookie.length == 0) {
       router.push("/");
     }
+    //new changes
     setDB(userData);
     setLoading(false);
     console.log(userData);
