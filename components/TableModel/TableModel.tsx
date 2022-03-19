@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Actions } from '../../elements/Icons/Icons';
 import { tableSchema } from '../../types/Table';
 import DialogBox from '../DialogBox/DialogBox';
-import { Dialog } from '@headlessui/react'
+import { Dialog } from '@headlessui/react';
 interface Props {
     tableData: tableSchema;
 }
