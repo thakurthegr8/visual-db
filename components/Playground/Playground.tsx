@@ -72,7 +72,7 @@ const Playground: React.FC = (props) => {
             >
               {`Create table`}
             </button>
-            {user.isLoggedIn && (
+            {user.isLoggedIn && router.query.db_id && (
               <button
                 role="save table"
                 className={`btn bg-white font-semibold text-black ${playgroundStyles.createTableButton}`}
@@ -101,4 +101,4 @@ const Playground: React.FC = (props) => {
     </div>
   );
 };
-export default memo(Playground);
+export default Playground;

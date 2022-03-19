@@ -12,7 +12,7 @@ import firebaseConfig from "../../../fr-api-auth.json";
 
 const handler = (
   req: NextApiRequest,
-  res: NextApiResponse<databaseApiSchema[] | { message: string }>
+  res: NextApiResponse<databaseApiSchema[]|{message:string}>
 ) => {
   const { uid } = req.query;
   const fApp = initializeApp(firebaseConfig);
@@ -27,7 +27,7 @@ const handler = (
         return {
           database: databaseObject,
           name: name,
-          id: doc.id,
+          id: doc.id
         };
       });
       res.status(200).json(userData);
@@ -35,5 +35,6 @@ const handler = (
       res.status(200).json({ message: JSON.stringify(err) });
     }
   });
+  // res.status(200).json({message:uid as string});
 };
 export default handler;
