@@ -11,6 +11,7 @@ import {
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import firebaseConfig from "../fr-api-auth.json";
 import { databaseApiSchema, tableSchema } from "../types/Table";
+import { devUrl, isDev, productionUrl } from "../default_objects/default_strings";
 
 const fApp = initializeApp(firebaseConfig);
 
@@ -18,23 +19,12 @@ export const useUserDataOnUID = (uid: string) => {
   const [userData, setUserData] = useState<databaseApiSchema[]>(
     [] as databaseApiSchema[]
   );
-  const db = getFirestore();
-  const colRef = collection(db, "user-1-database");
-  const qry = query(colRef, where("uid", "==", uid));
   useEffect(() => {
-    onSnapshot(qry, (snapshot) => {
-      const tempUserData = snapshot.docs.map((doc) => {
-        const { database, name } = doc.data();
-        const databaseObject = JSON.parse(database);
-        return {
-          database: databaseObject,
-          name: name,
-          id: doc.id,
-        };
-      });
-      setUserData(tempUserData);
+    if(userData.length ===0)
+    fetch(`${isDev ? devUrl : productionUrl}/api/data/read?uid=${uid}`)
+    .then(response=>response.json())
+    .then(data=>setUserData(data));
     });
-  });
   return userData;
 };
 

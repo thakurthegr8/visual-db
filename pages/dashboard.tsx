@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, memo } from "react";
 import { useRouter } from "next/router";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import { addDatabase, deleteDatabase, saveDatabase } from "../runnables/common_r
 const Dashboard = () => {
   const [db, setDB] = useState<databaseApiSchema[]>([] as databaseApiSchema[]);
   const [isDialogBoxOpen, setDialogBoxOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [dbName, setDbName] = useState<string>("");
   const { user, updateUser } = useContext(UserContext);
   const userData = useUserDataOnUID(user.uid);
@@ -21,7 +22,9 @@ const Dashboard = () => {
       router.push("/");
     }
     setDB(userData);
-  }, [user, userData]);
+    setLoading(false);
+    console.log(userData);
+  }, [user, userData,loading]);
   return (
     <>
       <Navbar>
@@ -49,16 +52,18 @@ const Dashboard = () => {
           <div className="bg-white -mt-16 dark:bg-accent-gray flex flex-col space-y-4 px-4 py-8 rounded-xl border-opacity-50 shadow-md  dark:border border-accent-gray-light">
             <div>
               {/* <Link href="/playground"> */}
-                <button onClick={()=>{
-                    addDatabase(user.uid);
-                }} className="btn bg-rose-500 text-white text-base font-semibold float-right">
-                  New Diagram
-                </button>
+              <button onClick={() => {
+                addDatabase(user.uid);
+                setLoading(true);
+              }} 
+              className="btn bg-rose-500 text-white text-base font-semibold float-right">
+                {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-rose-400 border-t-white w-8 h-8"></span> : `New Diagram`}
+              </button>
               {/* </Link> */}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {db.length > 0 ? (
-                db.map(({id,name,database}) => (
+              {!loading ? (
+                db.map(({ id, name, database }) => (
                   <div
                     key={id}
                     className="dark:text-white flex flex-col cursor-pointer  hover:bg-white hover:bg-opacity-10 border transition-all border-opacity-50 border-accent-gray-light rounded-xl p-4"
@@ -79,8 +84,8 @@ const Dashboard = () => {
                           className="text-lg font-medium leading-6 text-gray-900 flex justify-between  dark:text-white"
                         >
                           Database Actions
-                          <button className="btn btn-red" onClick={()=>deleteDatabase(id)}>Delete</button>
                         </Dialog.Title>
+                        <button className="btn btn-red" >{loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-red-400 border-t-white w-8 h-8"></span> : `Delete`}</button>
                         <div className="flex flex-col space-y-2">
                           <input
                             onChange={(e) => setDbName(e.target.value)}
@@ -90,7 +95,7 @@ const Dashboard = () => {
                             className="text-black"
                           />
                         </div>
-                        <button className="btn btn-blue" onClick={()=>saveDatabase(id,dbName,JSON.stringify(database))}>Save</button>
+                        <button className="btn btn-blue" onClick={() => saveDatabase(id, dbName, JSON.stringify(database))}>Save</button>
                       </DialogBox>
                     </div>
                     <Link href={`/playground?db_id=${id}`}>
@@ -108,4 +113,4 @@ const Dashboard = () => {
     </>
   );
 };
-export default Dashboard;
+export default memo(Dashboard);

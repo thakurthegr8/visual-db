@@ -16,7 +16,6 @@ const handler = (
     updateDoc(docRef, {
       database: database,
       name: name,
-      id:id
     });
     console.log("done");
     res.json({ message: `${name} successfully updated` });
