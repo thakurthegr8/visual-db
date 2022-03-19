@@ -15,7 +15,7 @@ const DialogBox: React.FC<Props> = ({ isDialogOpen, setDialogOpen,children }) =>
             <Transition show={isDialogOpen} as={Fragment}>
                 <Dialog
                     as="div"
-                    className="fixed inset-0 z-10 overflow-y-auto"
+                    className="fixed inset-0 bg-black bg-opacity-50 z-10 overflow-y-auto"
                     onClose={closeModal}
                 >
                     <div className="min-h-screen px-4 text-center">

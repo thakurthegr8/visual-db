@@ -18,20 +18,8 @@ import Masonry from "react-masonry-css";
 import { getDatabaseDataOnDbID } from "../../runnables/firebase_api";
 import { useRouter } from "next/router";
 import { UserContext } from "../../pages/_app";
+import { saveDatabase } from "../../runnables/common_runnables";
 
-const saveDatabase = (id: string, name: string, database: string) => {
-  console.log(database);
-  fetch(`http://localhost:3000/api/update`, {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify({ id: id, name: name, database: database }),
-  })
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-};
 
 const Sidebar: React.FC = ({ children }) => {
   return (
@@ -51,10 +39,12 @@ const Playground: React.FC = (props) => {
 
   const [cols, setCols] = useState(1);
   const [database, setDatabase] = useState<tableSchema[]>([]);
+  const [dbName, setDbName]= useState<string>("");
+  const [dbId, setDbId]= useState<string>("");
   const router = useRouter();
   useEffect(() => {
     const qid: string = router.query.db_id as string;
-    if (qid) getDatabaseDataOnDbID(qid, setDatabase);
+    if (qid) getDatabaseDataOnDbID(qid, setDatabase,setDbName,setDbId);
   }, [router.query.db_id]);
   useEffect(() => {
     if (window.innerWidth >= 768) {
@@ -86,6 +76,7 @@ const Playground: React.FC = (props) => {
               <button
                 role="save table"
                 className={`btn bg-white font-semibold text-black ${playgroundStyles.createTableButton}`}
+                onClick={()=>saveDatabase(dbId,dbName,JSON.stringify(database))}
               >
                 {`Save`}
               </button>

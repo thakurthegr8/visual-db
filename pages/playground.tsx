@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import Link from "next/link";
-import Playground from "../components/Playground/Playground";
+import PlaygroundComponent from "../components/Playground/Playground";
 import { databaseApiSchema } from "../types/Table";
 import Navbar from "../components/Navbar/Navbar";
 import { UserContext } from "./_app";
 
-const playground: React.FC = () => {
+const Playground: React.FC = () => {
   const { user } = useContext(UserContext);
   return (
     <>
@@ -32,9 +32,9 @@ const playground: React.FC = () => {
         </Link>
       </Navbar>
       <div className="pt-16">
-        <Playground />
+        <PlaygroundComponent />
       </div>
     </>
   );
 };
-export default playground;
+export default Playground;

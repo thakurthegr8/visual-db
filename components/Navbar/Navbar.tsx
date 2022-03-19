@@ -11,7 +11,7 @@ interface Props{
   return (
     <div className={styles.main}>
       <div className={styles.wrapper}>
-        <span className={styles.logoText}>Visual-DB</span>
+        <Link href="/"><span className={styles.logoText}>Visual-DB</span></Link>
         <div className="space-x-2">{children}</div>
       </div>
     </div>
