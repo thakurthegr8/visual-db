@@ -1,4 +1,10 @@
-import React, { createContext, memo, useState, useEffect } from "react";
+import React, {
+  createContext,
+  memo,
+  useState,
+  useEffect,
+  useContext,
+} from "react";
 import {
   databaseApiSchema,
   tableSchema,
@@ -11,26 +17,20 @@ import TableModel from "../TableModel/TableModel";
 import Masonry from "react-masonry-css";
 import { getDatabaseDataOnDbID } from "../../runnables/firebase_api";
 import { useRouter } from "next/router";
+import { UserContext } from "../../pages/_app";
 
-
-
-const saveDatabase = (
-  id: string ,
-  name: string,
-  database: string
-) => {
+const saveDatabase = (id: string, name: string, database: string) => {
   console.log(database);
-  fetch(
-    `http://localhost:3000/api/update`,{
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify({id:id, name:name,database:database})
-    }
-  ).then(res=>res.json())
-  .then(data=>console.log(data));
+  fetch(`http://localhost:3000/api/update`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify({ id: id, name: name, database: database }),
+  })
+    .then((res) => res.json())
+    .then((data) => console.log(data));
 };
 
 const Sidebar: React.FC = ({ children }) => {
@@ -44,12 +44,18 @@ export const DatabaseContext = createContext<tableSetterPair>(
   {} as tableSetterPair
 );
 const Playground: React.FC = (props) => {
+  const { user } = useContext(UserContext);
   const updateDatabase = (ntables: tableSchema[]) => {
     setDatabase(ntables);
   };
+
   const [cols, setCols] = useState(1);
   const [database, setDatabase] = useState<tableSchema[]>([]);
   const router = useRouter();
+  useEffect(() => {
+    const qid: string = router.query.db_id as string;
+    if (qid) getDatabaseDataOnDbID(qid, setDatabase);
+  }, [router.query.db_id]);
   useEffect(() => {
     if (window.innerWidth >= 768) {
       setCols(3);
@@ -57,15 +63,12 @@ const Playground: React.FC = (props) => {
       setCols(3);
     }
   }, []);
-  useEffect(() => {
-    const qid:string = router.query.db_id as string;
-    if(qid)
-    getDatabaseDataOnDbID(qid, setDatabase);
-  }, []);
-
-  useEffect(() => {
+  useEffect(()=>{
     console.log(JSON.stringify(database));
-  }, [database]);
+  },[database]);
+  // useEffect(() => {
+  //   console.log(JSON.stringify(database));
+  // }, [database]);
   return (
     <div className={playgroundStyles.mainGrid}>
       <Sidebar>
@@ -79,12 +82,14 @@ const Playground: React.FC = (props) => {
             >
               {`Create table`}
             </button>
-            <button
-              role="save table"
-              className={`btn bg-white font-semibold text-black ${playgroundStyles.createTableButton}`}
-            >
-              {`Save`}
-            </button>
+            {user.isLoggedIn && (
+              <button
+                role="save table"
+                className={`btn bg-white font-semibold text-black ${playgroundStyles.createTableButton}`}
+              >
+                {`Save`}
+              </button>
+            )}
           </div>
         </div>
         <DatabaseContext.Provider value={{ database, updateDatabase }}>

@@ -1,23 +1,19 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {initializeApp} from "firebase/app";
-import {doc,getFirestore,onSnapshot,addDoc,collection} from "firebase/firestore";
+import {doc,getFirestore,onSnapshot,addDoc,collection, deleteDoc} from "firebase/firestore";
 import firebaseConfig from "../../fr-api-auth.json";
 import {ApiResponseMessage} from "../../types/Table";
-
-
 
 const handler = (req:NextApiRequest, res:NextApiResponse<ApiResponseMessage>)=>{
     const fApp = initializeApp(firebaseConfig);
     const db = getFirestore();
-    const colRef = collection(db,"user-1-database");
-    const {database,uid} = req.body;
+    const {id} = req.body;
+    const docRef = doc(db,"user-1-database",id);
     try{
-        addDoc(colRef,{
-            database:"[]",name:"Unknown database",uid
-        }).then(response=>console.log(response));
-        res.json({message:`successfully added`});
+        deleteDoc(docRef);
+        res.json({message:`database with ${id} successfully deleted`});
     }catch(e){
-        res.json({message:`error in database creation`});
+        res.json({message:`error in database deletion`});
     }
 }
 export default handler;
