@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Navbar from "../components/Navbar/Navbar"
 import styles from '../styles/Home.module.css';
 import { UserContext } from './_app';
+import Head from 'next/head';
 
 const ImageLoader = () => {
   return `https://dl.dropboxusercontent.com/s/s6b9yf2zxvl7a2d/https___visual-db.netlify.app.png?dl=0`;
@@ -14,15 +15,18 @@ const Home: NextPage = () => {
   const { user } = useContext(UserContext);
   return (
     <>
+      <Head>
+        <title>Visual-DB</title>
+      </Head>
       <Navbar>
         {
           user.isLoggedIn ? <Link href="/dashboard">
-            <button className="btn bg-fuchsia-500 text-white">Dashboard</button>
+            <button className="btn bg-fuchsia-500 text-white" role="application">Dashboard</button>
           </Link> : <><Link href="/login">
-            <button className="btn bg-pink-500 text-white">Login</button>
+            <button className="btn bg-transparent text-base text-white" role="application">Login</button>
           </Link>
             <Link href="/register">
-              <button className="btn bg-purple-500 text-white font-semibold">Try Visual-db</button>
+              <button className="btn bg-purple-500 rounded-full text-base text-white font-semibold" role="application">Try Visual-db</button>
             </Link>
           </>
         }

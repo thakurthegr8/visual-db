@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
-import { useSignInWithEmlAndPwd } from "../runnables/firebase_api";
+import Navbar from "../components/Navbar/Navbar";
 import {
   devUrl,
   isDev,
@@ -73,6 +73,10 @@ const Login = () => {
     }
   }, [userData]);
   return (
+    <>
+    <Navbar>
+      
+    </Navbar>
     <div className="flex sm:justify-center sm:items-center h-screen fixed inset-0 ">
       <div className="dark:text-white space-y-4 bg-white dark:bg-accent-gray shadow-xl sm:rounded sm:border sm:border-accent-gray-light sm:border-opacity-50 p-8 w-full sm:min-w-[20rem] sm:w-auto">
         <h1 className="text-sm  bg-green-500 p-1 rounded-full text-white font-semibold max-w-max">
@@ -127,6 +131,7 @@ const Login = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 export default Login;

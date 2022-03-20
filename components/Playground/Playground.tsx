@@ -37,14 +37,17 @@ const Playground: React.FC = (props) => {
     setDatabase(ntables);
   };
 
+  const [loading, setLoading] = useState<boolean>(true);
   const [cols, setCols] = useState(1);
   const [database, setDatabase] = useState<tableSchema[]>([]);
-  const [dbName, setDbName]= useState<string>("");
-  const [dbId, setDbId]= useState<string>("");
+  const [dbName, setDbName] = useState<string>("");
+  const [dbId, setDbId] = useState<string>("");
   const router = useRouter();
   useEffect(() => {
     const qid: string = router.query.db_id as string;
-    if (qid) getDatabaseDataOnDbID(qid, setDatabase,setDbName,setDbId);
+    if (qid !== undefined) { getDatabaseDataOnDbID(qid, setDatabase, setDbName, setDbId); } else {
+      setLoading(false);
+    }
   }, [router.query.db_id]);
   useEffect(() => {
     if (window.innerWidth >= 768) {
@@ -53,13 +56,19 @@ const Playground: React.FC = (props) => {
       setCols(3);
     }
   }, []);
-  useEffect(()=>{
-    console.log(JSON.stringify(database));
-  },[database]);
-  // useEffect(() => {
-  //   console.log(JSON.stringify(database));
-  // }, [database]);
+
+  useEffect(() => {
+    if (router.query.db_id) {
+      const qid: string = router.query.db_id as string;
+      saveDatabase(dbId, dbName, JSON.stringify(database))
+      getDatabaseDataOnDbID(qid, setDatabase, setDbName, setDbId);
+      if (database) {
+        setLoading(false);
+      }
+    }
+  }, [loading])
   return (
+    
     <div className={playgroundStyles.mainGrid}>
       <Sidebar>
         <div className={playgroundStyles.sidebarAfterContainer}>
@@ -70,34 +79,37 @@ const Playground: React.FC = (props) => {
               className={`btn btn-blue ${playgroundStyles.createTableButton}`}
               onClick={() => addTable(database, setDatabase)}
             >
-              {`Create table`}
+              {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-blue-400 border-t-white w-8 h-8"></span> : `Create table`}
             </button>
             {user.isLoggedIn && router.query.db_id && (
               <button
                 role="save table"
                 className={`btn bg-white font-semibold text-black ${playgroundStyles.createTableButton}`}
-                onClick={()=>saveDatabase(dbId,dbName,JSON.stringify(database))}
+                onClick={() => {
+                  setLoading(true);
+                }}
               >
-                {`Save`}
+                {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-black border-t-white w-8 h-8"></span> : `Save`}
               </button>
             )}
           </div>
         </div>
-        <DatabaseContext.Provider value={{ database, updateDatabase }}>
+        {loading ? <div className="h-full w-full border-accent-gray  bg-accent-gray-light rounded animate-pulse"></div> : <DatabaseContext.Provider value={{ database, updateDatabase }}>
           {database.map((item) => (
             <TableEditor key={item.id} data={item} />
           ))}
-        </DatabaseContext.Provider>
-      </Sidebar>
-      <Masonry
-        breakpointCols={cols}
-        className="flex col-span-3 gap-2 p-2 dark:bg-accent-gray"
-        columnClassName="flex flex-col gap-y-2"
-      >
-        {database.map((table, index) => (
-          <TableModel key={index} tableData={table} />
-        ))}
-      </Masonry>
+        </DatabaseContext.Provider>}
+      </Sidebar>{
+        loading ? <div className="h-full w-full col-span-3  border-accent-gray  bg-accent-gray-light rounded animate-pulse"></div> :
+          <Masonry
+            breakpointCols={cols}
+            className="flex col-span-3 gap-2 p-2 dark:bg-accent-gray"
+            columnClassName="flex flex-col gap-y-2"
+          >
+            {database.map((table, index) => (
+              <TableModel key={index} tableData={table} />
+            ))}
+          </Masonry>}
     </div>
   );
 };
