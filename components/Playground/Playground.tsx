@@ -68,6 +68,7 @@ const Playground: React.FC = (props) => {
     }
   }, [loading])
   return (
+    
     <div className={playgroundStyles.mainGrid}>
       <Sidebar>
         <div className={playgroundStyles.sidebarAfterContainer}>
