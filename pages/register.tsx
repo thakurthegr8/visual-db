@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { useRouter } from "next/router";
 import { useSignInWithEmlAndPwd } from "../runnables/firebase_api";
 import {
@@ -6,12 +6,14 @@ import {
   isDev,
   productionUrl,
 } from "../default_objects/default_strings";
+import { UserContext } from "./_app";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [userData, setUserData] = useState<any>(null);
-  const [loginMessage, setLoginMessage] = useState<{
+  const {user,updateUser} = useContext(UserContext);
+  const [signUpMessage, setSignUpMessage] = useState<{
     message: string;
     color: string;
   }>({ message: "", color: "" });
@@ -36,7 +38,28 @@ const Login = () => {
   }, [loading]);
   useEffect(() => {
     if(userData){
-      console.log(userData);
+      if(Object.keys(userData).includes("message")){
+        setSignUpMessage({
+          color:"red",
+          message:userData.message.code
+        })
+      }else{
+        const { accessToken, expirationTime } = userData.user.stsTokenManager;
+        const { uid } = userData.user;
+        setSignUpMessage((signUpMessage) => ({
+          ...signUpMessage,
+          message: "Successfully Registered...",
+          color: "#22c55e",
+        }));
+        document.cookie = `vdb_user=${accessToken}`;
+        document.cookie = `vdb_uid=${uid}`;
+        updateUser({
+          uid,
+          isLoggedIn:true
+        });
+        router.push(`/dashboard`);
+      }
+      setLoading(false);
     }
   }, [userData]);
   return (
@@ -87,9 +110,9 @@ const Login = () => {
         <button className="btn dark:bg-white bg-gray-200 text-black font-semibold w-full">
           Login
         </button>
-        {loginMessage.message.length > 0 && (
-          <span style={{ color: loginMessage.color }}>
-            {loginMessage.message}
+        {signUpMessage.message.length > 0 && (
+          <span style={{ color: signUpMessage.color }}>
+            {signUpMessage.message}
           </span>
         )}
       </div>

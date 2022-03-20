@@ -17,13 +17,13 @@ const handler = (
   const fApp = initializeApp(firebaseConfig);
   const db = getFirestore();
   const colRef = collection(db, "user-1-database");
-  const { database, uid } = req.body;
+  const { uid } = req.body;
   try {
     addDoc(colRef, {
       database: "[]",
       name: "Unknown database",
       uid
-    }).then((response) => console.log(response));
+    });
     res.json({ message: `successfully added` });
   } catch (e) {
     res.json({ message: `error in database creation` });

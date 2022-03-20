@@ -17,12 +17,12 @@ const Dashboard = () => {
     }
     async function fetchUserData() {
       const userData = await getUserDataOnUID(user.uid);
-      setDB(userData);
+      if (userData !== db) {
+        setDB(userData);
+        setLoading(false);
+      }
     }
-    if (loading) {
-      fetchUserData();
-    }
-    setLoading(false);
+    fetchUserData();
   }, [user, loading]);
   return (
     <>
@@ -69,6 +69,9 @@ const Dashboard = () => {
                 <div className="bg-accent-gray-light w-full h-20 animate-pulse rounded-xl"></div>
               )}
             </div>
+            {
+              (!db || db.length === 0) && !loading && <div className="text-white">Nothing is here</div>
+            }
           </div>
         </div>
       </section>
