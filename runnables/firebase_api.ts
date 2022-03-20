@@ -15,17 +15,10 @@ import { devUrl, isDev, productionUrl } from "../default_objects/default_strings
 
 const fApp = initializeApp(firebaseConfig);
 
-export const useUserDataOnUID = (uid: string) => {
-  const [userData, setUserData] = useState<databaseApiSchema[]>(
-    [] as databaseApiSchema[]
-  );
-  useEffect(() => {
-    if(userData.length ===0)
-    fetch(`${isDev ? devUrl : productionUrl}/api/data/read?uid=${uid}`)
-    .then(response=>response.json())
-    .then(data=>setUserData(data));
-    });
-  return userData;
+export const getUserDataOnUID = async (uid: string) => {
+  const response = await fetch(`${isDev ? devUrl : productionUrl}/api/data/read?uid=${uid}`);
+  const data = response.json();
+  return data;
 };
 
 export const useSignInWithEmlAndPwd = (

@@ -1,32 +1,29 @@
 import { useEffect, useState, useContext, memo } from "react";
 import { useRouter } from "next/router";
-import { Dialog } from "@headlessui/react";
-import Link from "next/link";
 import { databaseApiSchema } from "../types/Table";
 import Navbar from "../components/Navbar/Navbar";
-import DialogBox from "../components/DialogBox/DialogBox";
-import { Actions } from "../elements/Icons/Icons";
-import { useUserDataOnUID } from "../runnables/firebase_api";
+import { getUserDataOnUID } from "../runnables/firebase_api";
 import { UserContext } from "./_app";
-import { addDatabase, deleteDatabase, saveDatabase } from "../runnables/common_runnables";
-import { GetServerSideProps } from "next";
+import { addDatabase } from "../runnables/common_runnables";
+import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
 const Dashboard = () => {
   const [db, setDB] = useState<databaseApiSchema[]>([] as databaseApiSchema[]);
-  const [isDialogBoxOpen, setDialogBoxOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [dbName, setDbName] = useState<string>("");
   const { user, updateUser } = useContext(UserContext);
-  const userData = useUserDataOnUID(user.uid);
   const router = useRouter();
   useEffect(() => {
     if (document.cookie.length == 0) {
-      router.push("/");
+      router.push("/login");
     }
-    //new changes
-    setDB(userData);
+    async function fetchUserData() {
+      const userData = await getUserDataOnUID(user.uid);
+      setDB(userData);
+    }
+    if (loading) {
+      fetchUserData();
+    }
     setLoading(false);
-    console.log(userData);
-  }, [user, userData,loading]);
+  }, [user, loading]);
   return (
     <>
       <Navbar>
@@ -57,8 +54,8 @@ const Dashboard = () => {
               <button onClick={() => {
                 addDatabase(user.uid);
                 setLoading(true);
-              }} 
-              className="btn bg-rose-500 text-white text-base font-semibold float-right">
+              }}
+                className="btn bg-rose-500 text-white text-base font-semibold float-right">
                 {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-rose-400 border-t-white w-8 h-8"></span> : `New Diagram`}
               </button>
               {/* </Link> */}
@@ -66,22 +63,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {!loading ? (
                 db.map(({ id, name, database }) => (
-                  <div
-                    key={id}
-                    className="dark:text-white flex flex-col cursor-pointer  hover:bg-white hover:bg-opacity-10 border transition-all border-opacity-50 border-accent-gray-light rounded-xl p-4"
-                  >
-                    <div className="flex justify-end">
-                      <button
-                        onClick={() => setDialogBoxOpen(true)}
-                        className="btn shadow-none hover:bg-black hover:bg-opacity-10 active:bg-opacity-25 text-inherit"
-                      >
-                        <Actions />
-                      </button>
-                    </div>
-                    <Link href={`/playground?db_id=${id}`}>
-                      <span>{name}</span>
-                    </Link>
-                  </div>
+                  <DashboardDBTile key={id} id={id} name={name} database={database} loading={loading} setLoading={setLoading} />
                 ))
               ) : (
                 <div className="bg-accent-gray-light w-full h-20 animate-pulse rounded-xl"></div>
@@ -95,10 +77,4 @@ const Dashboard = () => {
 };
 export default memo(Dashboard);
 
-export const getServerSideProps:GetServerSideProps = async ()=>{
-  return {
-    props:{
-      
-    }
-  }
-}
+
