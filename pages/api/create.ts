@@ -10,23 +10,29 @@ import {
 import firebaseConfig from "../../fr-api-auth.json";
 import { ApiResponseMessage } from "../../types/Table";
 
-const handler = (
+const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ApiResponseMessage>
 ) => {
-  const fApp = initializeApp(firebaseConfig);
-  const db = getFirestore();
-  const colRef = collection(db, "user-1-database");
-  const { uid } = req.body;
-  try {
-    addDoc(colRef, {
-      database: "[]",
-      name: "Unknown database",
-      uid
-    });
-    res.json({ message: `successfully added` });
-  } catch (e) {
-    res.json({ message: `error in database creation` });
+  if (req.method === "POST") {
+    const fApp = initializeApp(firebaseConfig);
+    const db = getFirestore();
+    const colRef = collection(db, "user-1-database");
+    const { uid } = req.body;
+    try {
+      const data = await addDoc(colRef, {
+        database: "[]",
+        name: "Unknown Database",
+        uid
+      });
+      if (data) {
+        res.status(201).json({ message: `${data.id} is successfully added` });
+      }
+    } catch (e) {
+      res.status(400).json({ message: `error in database creation` });
+    }
+  } else {
+    res.status(300).json({ message: "Method not allowed" });
   }
 };
 export default handler;
