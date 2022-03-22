@@ -8,6 +8,8 @@ import {
   where,
   doc,
   addDoc,
+  updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import firebaseConfig from "../fr-api-auth.json";
@@ -19,10 +21,10 @@ import {
 } from "../default_objects/default_strings";
 
 const fApp = initializeApp(firebaseConfig);
+const db = getFirestore();
 
 export const getUserDataOnUID = async (uid: string) => {
   return new Promise((resolve, reject) => {
-    const db = getFirestore();
     const colRef = collection(db, "user-1-database");
     const qry = query(colRef, where("uid", "==", uid));
     try {
@@ -62,14 +64,12 @@ export const useSignInWithEmlAndPwd = (
   return userData;
 };
 
-export const getDatabaseDataOnDbID = (
+export const getDatabaseDataOnDbID = async (
   id: string,
   setDatabase: (database: tableSchema[]) => void,
   setDbName: (dbName: string) => void,
   setDbId: (dbId: string) => void
 ) => {
-  const fApp = initializeApp(firebaseConfig);
-  const db = getFirestore();
   const docRef = doc(db, "user-1-database", id);
   try {
     onSnapshot(docRef, (doc: any) => {
@@ -87,7 +87,7 @@ export const getDatabaseDataOnDbID = (
     console.log(e);
   }
 };
-export const addDatabase = async (uid:string) => {
+export const addDatabase = async (uid: string) => {
   const fApp = initializeApp(firebaseConfig);
   const db = getFirestore();
   const colRef = collection(db, "user-1-database");
@@ -95,12 +95,40 @@ export const addDatabase = async (uid:string) => {
     const data = await addDoc(colRef, {
       database: "[]",
       name: "Unknown Database",
-      uid
+      uid,
     });
     if (data) {
-     return ({ message: `${data.id} is successfully added` });
+      return { message: `${data.id} is successfully added` };
     }
   } catch (e) {
-    return ({ message: `error in database creation` });
+    return { message: `error in database creation` };
   }
 };
+export const saveDatabase = async (
+  id: string,
+  name: string,
+  database: string
+) => {
+  const fApp = initializeApp(firebaseConfig);
+  const docRef = await doc(db, "user-1-database", id);
+  try {
+    await updateDoc(docRef, {
+      database: database,
+      name: name,
+    });
+    return { message: `${name} successfully updated` };
+  } catch (e) {
+    return { message: `error in database updation` };
+  }
+};
+
+export const deleteDatabase = async (id:string)=>{
+  const docRef = doc(db,"user-1-database",id);
+  try{
+      await deleteDoc(docRef);
+      return{message:`database with ${id} successfully deleted`};
+  }catch(e){
+      return {message:`error in database deletion`};
+  }
+}
+

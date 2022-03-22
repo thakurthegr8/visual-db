@@ -21,9 +21,8 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
   const { user, updateUser } = useContext(UserContext);
   const router = useRouter();
   const refreshPage = () => {
-    setLoading(true);
-    setDB(userData);
     if(router.isReady){
+      setLoading(false);
       router.reload();
     };
   }
@@ -41,6 +40,7 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
             document.cookie =
               "vdb_uid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             updateUser({ ...user, isLoggedIn: false });
+            router.push("/");
           }}
         >
           Sign out
@@ -55,6 +55,7 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
             <div>
               {/* <Link href="/playground"> */}
               <button onClick={async () => {
+                setLoading(true);
                 const data = await addDatabase(user.uid);
                 if (data) {
                   console.log(data);

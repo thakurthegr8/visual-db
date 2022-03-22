@@ -15,10 +15,9 @@ import playgroundStyles from "./Playground.module.css";
 import { addTable } from "../../runnables/playground_runnables";
 import TableModel from "../TableModel/TableModel";
 import Masonry from "react-masonry-css";
-import { getDatabaseDataOnDbID } from "../../runnables/firebase_api";
+import { getDatabaseDataOnDbID, saveDatabase } from "../../runnables/firebase_api";
 import { useRouter } from "next/router";
 import { UserContext } from "../../pages/_app";
-import { saveDatabase } from "../../runnables/common_runnables";
 
 
 const Sidebar: React.FC = ({ children }) => {
@@ -58,17 +57,20 @@ const Playground: React.FC = (props) => {
   }, []);
 
   useEffect(() => {
-    if (router.query.db_id) {
-      const qid: string = router.query.db_id as string;
-      saveDatabase(dbId, dbName, JSON.stringify(database))
-      getDatabaseDataOnDbID(qid, setDatabase, setDbName, setDbId);
-      if (database) {
-        setLoading(false);
+    const fetchData = async () => {
+      if (router.query.db_id) {
+        const qid: string = router.query.db_id as string;
+        const data = await saveDatabase(dbId, dbName, JSON.stringify(database))
+        if (data) {
+          await getDatabaseDataOnDbID(qid, setDatabase, setDbName, setDbId);
+          setLoading(false)
+        }
       }
     }
+    fetchData();
   }, [loading])
   return (
-    
+
     <div className={playgroundStyles.mainGrid}>
       <Sidebar>
         <div className={playgroundStyles.sidebarAfterContainer}>
