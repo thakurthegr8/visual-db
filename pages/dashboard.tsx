@@ -7,6 +7,7 @@ import { UserContext } from "./_app";
 import { addDatabase } from "../runnables/common_runnables";
 import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { devUrl, isDev, productionUrl } from "../default_objects/default_strings";
 
 interface Props {
   vuid: string;
@@ -86,7 +87,8 @@ export default memo(Dashboard);
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const uid = context.req.cookies["vdb_uid"];
-  const userData = await getUserDataOnUID(uid);
+  const response = await fetch(`${isDev ? devUrl : productionUrl}/api/data/read?uid=${uid}`);
+  const userData =await  response.json();
   return {
     props: {
       uid, userData
