@@ -30,9 +30,9 @@ const handler = (
           id: doc.id
         };
       });
-      res.status(200).json(userData);
+      return  res.status(200).json(userData);
     } catch (err) {
-      res.status(200).json({ message: JSON.stringify(err) });
+      return  res.status(400).json({ message: JSON.stringify(err) });
     }
   });
   // res.status(200).json({message:uid as string});

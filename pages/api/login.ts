@@ -10,9 +10,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const {email,password} = req.body;
   signInWithEmailAndPassword(auth,email,password)
   .then(cred=>{
-      res.status(200).json({user:cred.user});
+      return res.status(200).json({user:cred.user});
   }).catch(err=>{
-    res.status(300).json({message:err});
+    return res.status(400).json({message:err});
   });
 //   res.status(500).json({ message:"invalid response" });
 };
