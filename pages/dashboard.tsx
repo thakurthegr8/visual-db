@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, memo } from "react";
+import { useEffect, useState, useContext, memo,FC } from "react";
 import { useRouter } from "next/router";
 import { databaseApiSchema } from "../types/Table";
 import Navbar from "../components/Navbar/Navbar";
@@ -6,24 +6,28 @@ import { getUserDataOnUID } from "../runnables/firebase_api";
 import { UserContext } from "./_app";
 import { addDatabase } from "../runnables/common_runnables";
 import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
-const Dashboard = () => {
-  const [db, setDB] = useState<databaseApiSchema[]>([] as databaseApiSchema[]);
-  const [loading, setLoading] = useState<boolean>(true);
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+
+interface Props{
+  vuid:string;
+  userData:databaseApiSchema[];
+}
+
+const Dashboard:FC<Props> = ({vuid,userData}) => {
+  const [db, setDB] = useState<databaseApiSchema[]>(userData);
+  const [loading, setLoading] = useState<boolean>(false);
   const { user, updateUser } = useContext(UserContext);
   const router = useRouter();
+  const refreshPage = ()=>{
+    setLoading(true);
+    setDB(userData);
+    router.replace(router.asPath);
+  }
   useEffect(() => {
-    if (document.cookie.length == 0) {
-      router.push("/login");
+    if(db){
+      setLoading(false);
     }
-    async function fetchUserData() {
-      const userData = await getUserDataOnUID(user.uid);
-      if (userData !== db) {
-        setDB(userData);
-        setLoading(false);
-      }
-    }
-    fetchUserData();
-  }, [user, loading]);
+  }, [db]);
   return (
     <>
       <Navbar>
@@ -53,7 +57,7 @@ const Dashboard = () => {
               {/* <Link href="/playground"> */}
               <button onClick={() => {
                 addDatabase(user.uid);
-                setLoading(true);
+                refreshPage();
               }}
                 className="btn bg-rose-500 text-white text-base font-semibold float-right">
                 {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-rose-400 border-t-white w-8 h-8"></span> : `New Diagram`}
@@ -63,7 +67,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {!loading ? (
                 db.map(({ id, name, database }) => (
-                  <DashboardDBTile key={id} id={id} name={name} database={database} loading={loading} setLoading={setLoading} />
+                  <DashboardDBTile refreshPage={refreshPage} key={id} id={id} name={name} database={database} loading={loading} setLoading={setLoading} />
                 ))
               ) : (
                 <div className="bg-accent-gray-light w-full h-20 animate-pulse rounded-xl"></div>
@@ -80,4 +84,12 @@ const Dashboard = () => {
 };
 export default memo(Dashboard);
 
-
+export const getServerSideProps:GetServerSideProps =  async (context:GetServerSidePropsContext)=>{
+  const uid = context.req.cookies["vdb_uid"];
+  const userData = await getUserDataOnUID(uid);
+  return {
+    props:{
+      uid,userData
+    }
+  }
+}
