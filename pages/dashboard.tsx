@@ -8,13 +8,14 @@ import { addDatabase } from "../runnables/common_runnables";
 import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { devUrl, isDev, productionUrl } from "../default_objects/default_strings";
+import axios from "axios";
 
 interface Props {
-  vuid: string;
+  uid: string;
   userData: databaseApiSchema[];
 }
 
-const Dashboard: FC<Props> = ({ vuid, userData }) => {
+const Dashboard: FC<Props> = ({ uid, userData }) => {
   const [db, setDB] = useState<databaseApiSchema[]>(userData);
   const [loading, setLoading] = useState<boolean>(false);
   const { user, updateUser } = useContext(UserContext);
@@ -87,8 +88,10 @@ export default memo(Dashboard);
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const uid = context.req.cookies["vdb_uid"];
-  const response = await fetch(`${isDev ? devUrl : productionUrl}/api/data/read?uid=${uid}`);
-  const userData =await  response.json();
+  const response = await axios.post(`${isDev ? devUrl : productionUrl}/api/data/read`,{
+    uid
+  });
+  const userData =await  response.data;
   return {
     props: {
       uid, userData
