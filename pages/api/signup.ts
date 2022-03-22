@@ -21,10 +21,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
         name: "",
         email: data.user.email,
       });
-      if (userData) res.status(201).json({ user: data.user });
+      if (userData) return res.status(201).json({ user: data.user });
     }
   } catch (err) {
-    res.status(300).json({ message: err });
+    return res.status(300).json({ message: err });
   }
 };
 export default handler;

@@ -26,13 +26,13 @@ const handler = async (
         uid
       });
       if (data) {
-        res.status(201).json({ message: `${data.id} is successfully added` });
+       return  res.status(201).json({ message: `${data.id} is successfully added` });
       }
     } catch (e) {
-      res.status(400).json({ message: `error in database creation` });
+      return  res.status(400).json({ message: `error in database creation` });
     }
   } else {
-    res.status(300).json({ message: "Method not allowed" });
+    return  res.status(300).json({ message: "Method not allowed" });
   }
 };
 export default handler;

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, memo,FC } from "react";
+import { useEffect, useState, useContext, memo, FC } from "react";
 import { useRouter } from "next/router";
 import { databaseApiSchema } from "../types/Table";
 import Navbar from "../components/Navbar/Navbar";
@@ -8,26 +8,23 @@ import { addDatabase } from "../runnables/common_runnables";
 import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
-interface Props{
-  vuid:string;
-  userData:databaseApiSchema[];
+interface Props {
+  vuid: string;
+  userData: databaseApiSchema[];
 }
 
-const Dashboard:FC<Props> = ({vuid,userData}) => {
+const Dashboard: FC<Props> = ({ vuid, userData }) => {
   const [db, setDB] = useState<databaseApiSchema[]>(userData);
   const [loading, setLoading] = useState<boolean>(false);
   const { user, updateUser } = useContext(UserContext);
   const router = useRouter();
-  const refreshPage = ()=>{
+  const refreshPage = () => {
     setLoading(true);
     setDB(userData);
-    router.replace(router.asPath);
+    if(router.isReady){
+      router.reload();
+    };
   }
-  useEffect(() => {
-    if(db){
-      setLoading(false);
-    }
-  }, [db]);
   return (
     <>
       <Navbar>
@@ -55,9 +52,12 @@ const Dashboard:FC<Props> = ({vuid,userData}) => {
           <div className="bg-white -mt-16 dark:bg-accent-gray flex flex-col space-y-4 px-4 py-8 rounded-xl border-opacity-50 shadow-md  dark:border border-accent-gray-light">
             <div>
               {/* <Link href="/playground"> */}
-              <button onClick={() => {
-                addDatabase(user.uid);
-                refreshPage();
+              <button onClick={async () => {
+                const data = await addDatabase(user.uid);
+                if (data) {
+                  console.log(data);
+                  refreshPage();
+                }
               }}
                 className="btn bg-rose-500 text-white text-base font-semibold float-right">
                 {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-rose-400 border-t-white w-8 h-8"></span> : `New Diagram`}
@@ -84,12 +84,12 @@ const Dashboard:FC<Props> = ({vuid,userData}) => {
 };
 export default memo(Dashboard);
 
-export const getServerSideProps:GetServerSideProps =  async (context:GetServerSidePropsContext)=>{
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const uid = context.req.cookies["vdb_uid"];
   const userData = await getUserDataOnUID(uid);
   return {
-    props:{
-      uid,userData
+    props: {
+      uid, userData
     }
   }
 }
