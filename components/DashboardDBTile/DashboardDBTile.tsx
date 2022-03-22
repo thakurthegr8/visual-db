@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Link from "next/link";
 import { Pencil, Trash } from '../../elements/Icons/Icons';
-import { deleteDatabase, saveDatabase } from '../../runnables/common_runnables';
+import { deleteDatabase } from '../../runnables/firebase_api';
 import { tableSchema } from '../../types/Table';
+import { saveDatabase } from '../../runnables/firebase_api';
 
 interface Props {
     id: string;
@@ -27,17 +28,25 @@ const DashboardDBTile: React.FC<Props> = ({ id, name, database, loading, setLoad
                     {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-rose-400 border-t-white w-8 h-8"></span> : <Pencil />}
                 </button>
                 <button
-                    onClick={() => { deleteDatabase(id); refreshPage(); }}
+                    onClick={async () => {
+                        const data = await deleteDatabase(id);
+                        if (data) {
+                            refreshPage();
+                        }
+                    }}
                     className="btn shadow-none text-red-600 hover:bg-black hover:bg-opacity-10 active:bg-opacity-25 text-inherit"
                 >
                     {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-rose-400 border-t-white w-8 h-8"></span> : <Trash />}
                 </button>
             </div>{
-                isEditMode ? <form onSubmit={(e) => {
+                isEditMode ? <form onSubmit={async (e) => {
                     e.preventDefault();
+                    setLoading(true);
                     setEditMode(false);
-                    saveDatabase(id, dbName, JSON.stringify(database));
-                    refreshPage();
+                    const data = await saveDatabase(id, dbName, JSON.stringify(database));
+                    if (data) {
+                        refreshPage();
+                    }
                 }} className="flex flex-col">
                     <input onChange={e => setDbName(e.target.value)} type="text" value={dbName} placeholder={`previous name : ${name}`} className="bg-accent-gray-light p-2 rounded focus:outline-none" />
                 </form> :
