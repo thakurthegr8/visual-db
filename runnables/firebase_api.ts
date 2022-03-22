@@ -7,18 +7,41 @@ import {
   query,
   where,
   doc,
+  addDoc,
 } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import firebaseConfig from "../fr-api-auth.json";
 import { databaseApiSchema, tableSchema } from "../types/Table";
-import { devUrl, isDev, productionUrl } from "../default_objects/default_strings";
+import {
+  devUrl,
+  isDev,
+  productionUrl,
+} from "../default_objects/default_strings";
 
 const fApp = initializeApp(firebaseConfig);
 
 export const getUserDataOnUID = async (uid: string) => {
-  const response = await fetch(`${isDev ? devUrl : productionUrl}/api/data/read?uid=${uid}`);
-  const data = response.json();
-  return data;
+  return new Promise((resolve, reject) => {
+    const db = getFirestore();
+    const colRef = collection(db, "user-1-database");
+    const qry = query(colRef, where("uid", "==", uid));
+    try {
+      onSnapshot(qry, (snapshot) => {
+        const userData = snapshot.docs.map((doc) => {
+          const { database, name } = doc.data();
+          const databaseObject = JSON.parse(database);
+          return {
+            database: databaseObject,
+            name: name,
+            id: doc.id,
+          };
+        });
+        resolve(userData);
+      });
+    } catch (err) {
+      reject({ message: JSON.stringify });
+    }
+  });
 };
 
 export const useSignInWithEmlAndPwd = (
@@ -62,5 +85,22 @@ export const getDatabaseDataOnDbID = (
     });
   } catch (e) {
     console.log(e);
+  }
+};
+export const addDatabase = async (uid:string) => {
+  const fApp = initializeApp(firebaseConfig);
+  const db = getFirestore();
+  const colRef = collection(db, "user-1-database");
+  try {
+    const data = await addDoc(colRef, {
+      database: "[]",
+      name: "Unknown Database",
+      uid
+    });
+    if (data) {
+     return ({ message: `${data.id} is successfully added` });
+    }
+  } catch (e) {
+    return ({ message: `error in database creation` });
   }
 };

@@ -25,15 +25,4 @@ export const saveDatabase = (id: string, name: string, database: string) => {
       .then((res) => res.json())
       .then((data) => console.log(data));
   };
-  export const addDatabase = async (uid:string) => {
-    const response = await fetch(`${isDev ? devUrl:productionUrl}/api/create`, {
-      method: "POST",
-      headers: {
-        "Accept":"application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ database: [],uid }),
-    });
-    const data = response.json();
-    return data;
-  };
+  

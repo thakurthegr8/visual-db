@@ -4,7 +4,7 @@ import { databaseApiSchema } from "../types/Table";
 import Navbar from "../components/Navbar/Navbar";
 import { getUserDataOnUID } from "../runnables/firebase_api";
 import { UserContext } from "./_app";
-import { addDatabase } from "../runnables/common_runnables";
+import { addDatabase } from "../runnables/firebase_api";
 import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { devUrl, isDev, productionUrl } from "../default_objects/default_strings";
@@ -84,14 +84,11 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
     </>
   );
 };
-export default memo(Dashboard);
+export default Dashboard;
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const uid = context.req.cookies["vdb_uid"];
-  const response = await axios.post(`${isDev ? devUrl : productionUrl}/api/data/read`,{
-    uid
-  });
-  const userData =await  response.data;
+  const userData =await getUserDataOnUID(uid);
   return {
     props: {
       uid, userData
