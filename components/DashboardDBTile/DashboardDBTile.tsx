@@ -29,6 +29,7 @@ const DashboardDBTile: React.FC<Props> = ({ id, name, database, loading, setLoad
                 </button>
                 <button
                     onClick={async () => {
+                        setLoading(true);
                         const data = await deleteDatabase(id);
                         if (data) {
                             refreshPage();

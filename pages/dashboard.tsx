@@ -9,6 +9,7 @@ import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { devUrl, isDev, productionUrl } from "../default_objects/default_strings";
 import axios from "axios";
+import Head from "next/head";
 
 interface Props {
   uid: string;
@@ -28,6 +29,9 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
   }
   return (
     <>
+    <Head>
+      <title>Dashboard</title>
+    </Head>
       <Navbar>
         {/* <DropDown alignment="bottom" title="Table Colors" mainIcon={ColorSwatch}>
                     <div className="grid grid-cols-4 gap-2">{colors.map((item, index) => <Menu.Item as="button" key={index}>{item}</Menu.Item>)}</div>

@@ -43,10 +43,19 @@ const Playground: React.FC = (props) => {
   const [dbId, setDbId] = useState<string>("");
   const router = useRouter();
   useEffect(() => {
-    const qid: string = router.query.db_id as string;
-    if (qid !== undefined) { getDatabaseDataOnDbID(qid, setDatabase, setDbName, setDbId); } else {
-      setLoading(false);
+    const fetchFirstData = async () => {
+      const qid: string = router.query.db_id as string;
+      if (qid !== undefined) {
+        await getDatabaseDataOnDbID(qid, setDatabase, setDbName, setDbId);
+        if (database) {
+          setLoading(false);
+        }
+      }
+      else {
+        setLoading(false);
+      }
     }
+    fetchFirstData();
   }, [router.query.db_id]);
   useEffect(() => {
     if (window.innerWidth >= 768) {
@@ -55,20 +64,15 @@ const Playground: React.FC = (props) => {
       setCols(3);
     }
   }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (router.query.db_id) {
-        const qid: string = router.query.db_id as string;
-        const data = await saveDatabase(dbId, dbName, JSON.stringify(database))
-        if (data) {
-          await getDatabaseDataOnDbID(qid, setDatabase, setDbName, setDbId);
-          setLoading(false)
-        }
-      }
+  const fetchData = async () => {
+    const qid: string = router.query.db_id as string;
+    const data = await saveDatabase(dbId, dbName, JSON.stringify(database))
+    if (data) {
+      await getDatabaseDataOnDbID(qid, setDatabase, setDbName, setDbId);
+      setLoading(false)
     }
-    fetchData();
-  }, [loading])
+  }
+
   return (
 
     <div className={playgroundStyles.mainGrid}>
@@ -89,6 +93,7 @@ const Playground: React.FC = (props) => {
                 className={`btn bg-white font-semibold text-black ${playgroundStyles.createTableButton}`}
                 onClick={() => {
                   setLoading(true);
+                  fetchData();
                 }}
               >
                 {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-black border-t-white w-8 h-8"></span> : `Save`}
