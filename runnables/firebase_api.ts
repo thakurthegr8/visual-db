@@ -70,9 +70,9 @@ export const getDatabaseDataOnDbID = async (
   setDbName: (dbName: string) => void,
   setDbId: (dbId: string) => void
 ) => {
-  const docRef = doc(db, "user-1-database", id);
+  const docRef = await doc(db, "user-1-database", id);
   try {
-    onSnapshot(docRef, (doc: any) => {
+   await onSnapshot(docRef, (doc: any) => {
       const { database, name } = doc.data();
       const docObj: databaseApiSchema = {
         database: JSON.parse(database),
@@ -110,7 +110,7 @@ export const saveDatabase = async (
   database: string
 ) => {
   const fApp = initializeApp(firebaseConfig);
-  const docRef = await doc(db, "user-1-database", id);
+  const docRef =  doc(db, "user-1-database", id);
   try {
     await updateDoc(docRef, {
       database: database,

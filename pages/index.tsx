@@ -21,7 +21,7 @@ const Home: NextPage = () => {
       <Navbar>
         {
           user.isLoggedIn ? <Link href="/dashboard">
-            <button className="btn bg-fuchsia-500 text-white" role="application">Dashboard</button>
+            <button className="btn bg-fuchsia-500 rounded-full text-base text-white" role="application">Dashboard</button>
           </Link> : <><Link href="/login">
             <button className="btn bg-transparent text-base text-white" role="application">Login</button>
           </Link>
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
               <Link href="/playground"><button className="btn text-white sm:max-w-[50%] font-semibold text-xl bg-green-500">Get Started</button></Link>
             </div>
             <div className="flex justify-center ">
-              <Image priority={true} quality={100} className="" src={ImageLoader()} alt="visual-db-hero" width={1000} height={500} objectFit="contain" />
+              <Image priority={true} quality={100} className=""  src={ImageLoader()} alt="visual-db-hero" width={1000} height={500} objectFit="contain" />
             </div>
           </div>
         </section>
