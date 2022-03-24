@@ -1,12 +1,16 @@
 import React, { useState, useEffect,useContext } from "react";
 import { useRouter } from "next/router";
-import { useSignInWithEmlAndPwd } from "../runnables/firebase_api";
+import { UserContext } from "./_app";
+import RegisterStyles from "../styles/Register.module.css";
 import {
   devUrl,
   isDev,
   productionUrl,
 } from "../default_objects/default_strings";
-import { UserContext } from "./_app";
+import InputField from "../components/InputField/InputField";
+import Link from "next/link";
+import Navbar from "../components/Navbar/Navbar";
+import Head from "next/head";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -63,53 +67,44 @@ const Login = () => {
     }
   }, [userData]);
   return (
-    <div className="flex sm:justify-center sm:items-center h-screen fixed inset-0 ">
-      <div className="dark:text-white space-y-4 bg-white dark:bg-accent-gray shadow-xl sm:rounded sm:border sm:border-accent-gray-light sm:border-opacity-50 p-8 w-full sm:min-w-[20rem] sm:w-auto">
-        <h1 className="text-sm  bg-green-500 p-1 rounded-full text-white font-semibold max-w-max">
-          Register
+    <>
+    <Head><title>Visual-DB | Register</title></Head>
+    <Navbar></Navbar>
+    <div className={RegisterStyles.main}>
+      <div className={RegisterStyles.mainCard}>
+        <h1 className={RegisterStyles.title}>
+          Visual-DB
         </h1>
-        <h1 className="text-4xl font-extrabold">Visual-DB</h1>
+        <h1 className={RegisterStyles.brandTitle}>Register</h1>
         <form
-          className="flex flex-col space-y-2"
+          className={RegisterStyles.form}
           autoSave="true"
           onSubmit={(e) => {
             e.preventDefault();
             setLoading(true);
           }}
         >
-          <input
-            required
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            className="p-2 font-semibold transition focus:ring-1 focus:ring-green-400 bg-white focus:outline-none bg-opacity-20 rounded shadow-md border border-accent-gray-light border-opacity-50"
-            type="email"
-            placeholder="Enter email..."
-          />
-          <input
-            required
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            className="p-2 font-semibold bg-white focus:ring-1 focus:ring-green-400 focus:outline-none bg-opacity-20 rounded shadow-md border border-accent-gray-light border-opacity-50"
-            type="password"
-            placeholder="Enter password..."
-          />
+         <InputField type="email" value={email} handler={setEmail} placeholder="Enter email..." />
+         <InputField type="password" value={password} handler={setPassword} placeholder="Enter password..." />
           <button
             type="submit"
             disabled={loading}
-            className={`btn flex justify-center items-center text-white ${
+            className={`btn ${RegisterStyles.signUpButton} ${
               loading ? "bg-green-600" : "bg-green-500"
             }`}
           >
             {loading ? (
-              <span className="border-4 animate-spin block bg-transparent rounded-full border-green-400 border-t-white w-8 h-8"></span>
+              <span className="loader-rounded border-green-400"></span>
             ) : (
               "Signup"
             )}
           </button>
         </form>
-        <button className="btn dark:bg-white bg-gray-200 text-black font-semibold w-full">
+        <Link href="/login">
+        <button className={`btn ${RegisterStyles.loginButton}`}>
           Login
         </button>
+        </Link>
         {signUpMessage.message.length > 0 && (
           <span style={{ color: signUpMessage.color }}>
             {signUpMessage.message}
@@ -117,6 +112,7 @@ const Login = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 export default Login;

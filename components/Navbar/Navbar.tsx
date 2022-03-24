@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 
 
 interface Props{
-  children:any;
+  children?:any;
 }
 
  const Navbar: React.FC<Props> = ({children}) => {

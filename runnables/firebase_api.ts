@@ -72,7 +72,7 @@ export const getDatabaseDataOnDbID = async (
 ) => {
   const docRef = await doc(db, "user-1-database", id);
   try {
-   await onSnapshot(docRef, (doc: any) => {
+    await onSnapshot(docRef, (doc: any) => {
       const { database, name } = doc.data();
       const docObj: databaseApiSchema = {
         database: JSON.parse(database),
@@ -110,7 +110,7 @@ export const saveDatabase = async (
   database: string
 ) => {
   const fApp = initializeApp(firebaseConfig);
-  const docRef =  doc(db, "user-1-database", id);
+  const docRef = doc(db, "user-1-database", id);
   try {
     await updateDoc(docRef, {
       database: database,
@@ -122,13 +122,33 @@ export const saveDatabase = async (
   }
 };
 
-export const deleteDatabase = async (id:string)=>{
-  const docRef = doc(db,"user-1-database",id);
-  try{
-      await deleteDoc(docRef);
-      return{message:`database with ${id} successfully deleted`};
-  }catch(e){
-      return {message:`error in database deletion`};
+export const deleteDatabase = async (id: string) => {
+  const docRef = doc(db, "user-1-database", id);
+  try {
+    await deleteDoc(docRef);
+    return { message: `database with ${id} successfully deleted` };
+  } catch (e) {
+    return { message: `error in database deletion` };
   }
-}
+};
 
+export const loginUser = async (email: string, password: string) => {
+  try {
+    const response = await fetch(
+      `${isDev ? devUrl : productionUrl}/api/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
+    const data = await response.json();
+    if (data) {
+      return data;
+    }
+  } catch (err) {
+    return err;
+  }
+};

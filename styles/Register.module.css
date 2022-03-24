@@ -1,0 +1,34 @@
+.main {
+  @apply flex sm:justify-center pt-20 sm:pt-0 sm:items-center h-screen fixed inset-0 bg-white dark:bg-accent-gray;
+}
+.mainCard {
+  @apply dark:text-white space-y-6
+dark:bg-accent-gray bg-white
+    sm:shadow-xl sm:rounded sm:border
+  sm:border-accent-gray-light
+    sm:border-opacity-50 p-6 w-full
+    sm:min-w-[20rem] sm:w-auto relative;
+}
+.mainCard::before {
+  content: "";
+  @apply hidden sm:block absolute bg-green-400 h-full w-full -top-10 -left-32 -z-10 blur-2xl rounded-full animate-pulse;
+}
+.mainCard::after {
+  content: "";
+  @apply hidden sm:block absolute bg-indigo-600  opacity-75  h-full w-full top-10 left-32 -z-10 blur-2xl rounded-full animate-pulse;
+}
+.title {
+  @apply text-sm  bg-green-500 p-1 rounded-full text-white font-semibold max-w-max;
+}
+.brandTitle {
+  @apply text-4xl font-extrabold;
+}
+.form {
+  @apply flex flex-col space-y-3;
+}
+.signUpButton {
+  @apply flex justify-center items-center text-white p-3.5 sm:p-2;
+}
+.loginButton {
+  @apply dark:bg-white bg-accent-gray dark:text-black text-white font-semibold w-full p-3.5 sm:p-2;
+}
