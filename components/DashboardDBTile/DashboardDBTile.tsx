@@ -18,7 +18,7 @@ const DashboardDBTile: React.FC<Props> = ({ id, name, database, loading, setLoad
     const [dbName, setDbName] = useState<string>("");
     return (
         <div
-            className="dark:text-white flex flex-col space-y-2 cursor-pointer  hover:bg-white hover:bg-opacity-10 border transition-all border-opacity-50 border-accent-gray-light rounded-xl p-4"
+            className="dark:text-white flex flex-col space-y-2 cursor-pointer   dark:hover:bg-white hover:bg-gray-500 hover:bg-opacity-10 dark:hover:bg-opacity-10 border transition-all border-opacity-50 border-accent-gray-light rounded-xl p-4"
         >
             <div className="flex justify-end">
                 <button
@@ -49,7 +49,7 @@ const DashboardDBTile: React.FC<Props> = ({ id, name, database, loading, setLoad
                         refreshPage();
                     }
                 }} className="flex flex-col">
-                    <input onChange={e => setDbName(e.target.value)} type="text" value={dbName} placeholder={`previous name : ${name}`} className="bg-accent-gray-light p-2 rounded focus:outline-none" />
+                    <input onChange={e => setDbName(e.target.value)} type="text" value={dbName} placeholder={`previous name : ${name}`} className="dark:bg-accent-gray-light border border-accent-gray-light border-opacity-50 dark:border-none p-2 rounded-xl focus:outline-none" />
                 </form> :
                     <Link href={`/playground?db_id=${id}`}>
                         <span>{name}</span>

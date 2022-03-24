@@ -51,11 +51,11 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
         </button>
       </Navbar>
       <section className="flex flex-col">
-        <div className="text-white text-3xl  lg:text-5xl px-4 font-bold pt-24 pb-24 bg-gradient-to-br from-indigo-600 dark:to-black to-white">
+        <div className="text-white text-3xl  lg:text-5xl px-4 font-bold pt-24 pb-24 bg-purple-500">
           <h1 className="mx-auto container">Your Diagrams</h1>
         </div>
         <div className="flex flex-col mx-auto container px-2 lg:px-0 space-y-4 ">
-          <div className="bg-white -mt-16 dark:bg-accent-gray flex flex-col space-y-4 px-4 py-8 rounded-xl border-opacity-50 shadow-md  dark:border border-accent-gray-light">
+          <div className="bg-white -mt-16 dark:bg-accent-gray  flex flex-col space-y-4 px-4 py-8 rounded-xl border-opacity-50 shadow-md  dark:border border-accent-gray-light">
             <div>
               {/* <Link href="/playground"> */}
               <button onClick={async () => {

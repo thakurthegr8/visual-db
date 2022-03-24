@@ -32,7 +32,9 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'IBM Plex Sans', sans-serif;
+  -webkit-tap-highlight-color:transparent;
   @apply dark:bg-accent-gray bg-gray-100;
+  
 }
 
 a {
@@ -70,4 +72,8 @@ body::-webkit-scrollbar-thumb:hover {
 }
 body::-webkit-scrollbar-track {
   @apply bg-slate-800 rounded-full;
+}
+.loader-rounded{
+@apply border-4 animate-spin block bg-transparent rounded-full border-t-white w-8 h-8;
+
 }
