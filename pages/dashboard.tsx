@@ -1,15 +1,14 @@
-import { useEffect, useState, useContext, memo, FC } from "react";
+import { useState, useContext, FC } from "react";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import { databaseApiSchema } from "../types/Table";
 import Navbar from "../components/Navbar/Navbar";
 import { getUserDataOnUID } from "../runnables/firebase_api";
 import { UserContext } from "./_app";
 import { addDatabase } from "../runnables/firebase_api";
 import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { devUrl, isDev, productionUrl } from "../default_objects/default_strings";
-import axios from "axios";
-import Head from "next/head";
+import DashboardStyles from "../styles/Dashboard.module.css";
 
 interface Props {
   uid: string;
@@ -22,22 +21,22 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
   const { user, updateUser } = useContext(UserContext);
   const router = useRouter();
   const refreshPage = () => {
-    if(router.isReady){
+    if (router.isReady) {
       setLoading(false);
       router.reload();
     };
   }
   return (
     <>
-    <Head>
-      <title>Dashboard</title>
-    </Head>
+      <Head>
+        <title>Dashboard</title>
+      </Head>
       <Navbar>
         {/* <DropDown alignment="bottom" title="Table Colors" mainIcon={ColorSwatch}>
                     <div className="grid grid-cols-4 gap-2">{colors.map((item, index) => <Menu.Item as="button" key={index}>{item}</Menu.Item>)}</div>
                 </DropDown> */}
         <button
-          className="btn bg-white text-red-500 font-semibold"
+          className={`btn ${DashboardStyles.signOutButton}`}
           onClick={() => {
             document.cookie =
               "vdb_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -50,12 +49,12 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
           Sign out
         </button>
       </Navbar>
-      <section className="flex flex-col">
-        <div className="text-white text-3xl  lg:text-5xl px-4 font-bold pt-24 pb-24 bg-purple-500">
-          <h1 className="mx-auto container">Your Diagrams</h1>
+      <section className={DashboardStyles.main}>
+        <div className={DashboardStyles.userInfoContainer}>
+          <h1 className={DashboardStyles.title}>Your Diagrams</h1>
         </div>
-        <div className="flex flex-col mx-auto container px-2 lg:px-0 space-y-4 ">
-          <div className="bg-white -mt-16 dark:bg-accent-gray  flex flex-col space-y-4 px-4 py-8 rounded-xl border-opacity-50 shadow-md  dark:border border-accent-gray-light">
+        <div className={DashboardStyles.DBTilesCardContainer}>
+          <div className={DashboardStyles.DBTilesCard}>
             <div>
               {/* <Link href="/playground"> */}
               <button onClick={async () => {
@@ -66,18 +65,18 @@ const Dashboard: FC<Props> = ({ uid, userData }) => {
                   refreshPage();
                 }
               }}
-                className="btn bg-rose-500 text-white text-base font-semibold float-right">
-                {loading ? <span className="border-4 animate-spin block bg-transparent rounded-full border-rose-400 border-t-white w-8 h-8"></span> : `New Diagram`}
+                className={`btn ${DashboardStyles.newDiagramButton}`}>
+                {loading ? <span className="loader-rounded border-black"></span> : `New Diagram`}
               </button>
               {/* </Link> */}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className={DashboardStyles.DBTilesGrid}>
               {!loading ? (
                 db.map(({ id, name, database }) => (
                   <DashboardDBTile refreshPage={refreshPage} key={id} id={id} name={name} database={database} loading={loading} setLoading={setLoading} />
                 ))
               ) : (
-                <div className="bg-accent-gray-light w-full h-20 animate-pulse rounded-xl"></div>
+                <div className={DashboardStyles.pulseLoader}></div>
               )}
             </div>
             {
@@ -93,7 +92,7 @@ export default Dashboard;
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const uid = context.req.cookies["vdb_uid"];
-  const userData =await getUserDataOnUID(uid);
+  const userData = await getUserDataOnUID(uid);
   return {
     props: {
       uid, userData

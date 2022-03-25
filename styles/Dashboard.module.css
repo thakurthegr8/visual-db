@@ -1,0 +1,27 @@
+.main{
+    @apply flex flex-col;
+}
+.userInfoContainer{
+@apply dark:text-white text-3xl  lg:text-5xl  px-4 font-bold pt-24 pb-24 dark:bg-black bg-white;
+}
+.title{
+    @apply mx-auto container max-w-5xl;
+}
+.DBTilesCardContainer{
+@apply flex flex-col mx-auto container max-w-5xl px-4 lg:px-0 space-y-4;
+}
+.DBTilesCard{
+@apply bg-white border -mt-16 dark:bg-black  flex flex-col space-y-4 px-4 py-8 rounded-xl border-opacity-50 shadow-md  dark:border border-accent-gray-light;
+}
+.newDiagramButton{
+@apply dark:bg-white dark:text-black  bg-accent-gray focus:opacity-50 hover:opacity-75 text-white  font-semibold float-right;
+}
+.DBTilesGrid{
+@apply grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4;
+}
+.pulseLoader{
+@apply bg-accent-gray-light w-full h-20 animate-pulse rounded-xl;
+}
+.signOutButton{
+@apply bg-red-800 text-white dark:bg-red-900 dark:text-red-200 border border-red-500 hover:border-red-300  font-normal uppercase;
+}
