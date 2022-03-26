@@ -7,7 +7,7 @@ import Column from "../Column/Column";
 import DropDown from "../DropDown/DropDown";
 import { DatabaseContext } from "../Playground/Playground";
 import { addColumn, updateColor, updateTableName, deleteTable } from "../../runnables/table_runnables";
-import { colorGenerator } from "../../generators/generators_color";
+import { colorGenerator, colorGeneratorWithBg } from "../../generators/generators_color";
 import tableEditorStyles from "./TableEditor.module.css";
 
 interface Props {
@@ -34,7 +34,7 @@ const TableEditor: React.FC<Props> = ({ data }) => {
               }
             }} onChange={e => updateName(e.target.value)} value={updatedName} placeholder="Enter table name..." className={tableEditorStyles.tableNameEditor} />
               : <Disclosure.Button><div className={tableEditorStyles.tableNameDisclosureButton}><span className={`${open ? "rotate-180" : "rotate-0"} transition-all`}><Chevron /></span>
-                <span>{name}</span>
+                <span className="text-inherit">{name}</span>
               </div>
               </Disclosure.Button>
           }
@@ -58,7 +58,7 @@ const TableEditor: React.FC<Props> = ({ data }) => {
             </TableContext.Provider>
             <div className={tableEditorStyles.tableActions}>
               <DropDown alignment="right" title="Table Colors" mainIcon={ColorSwatch}>
-                <div className="grid grid-cols-4 gap-2">{colors.map((item, index) => <Menu.Item onClick={() => updateColor(item, database, updateDatabase, id)} as="button" className={tableEditorStyles.colorSelectorButton} style={colorGenerator(item)} key={index}></Menu.Item>)}</div>
+                <div className="grid grid-cols-4 gap-2">{colors.map((item, index) => <Menu.Item onClick={() => updateColor(item, database, updateDatabase, id)} as="button" className={tableEditorStyles.colorSelectorButton} style={colorGeneratorWithBg(item)} key={index}></Menu.Item>)}</div>
               </DropDown>
               <button onClick={() => addColumn(database, updateDatabase, columns, id)} className={`btn ${tableEditorStyles.addColumnButton}`}>Add Column</button>
             </div>

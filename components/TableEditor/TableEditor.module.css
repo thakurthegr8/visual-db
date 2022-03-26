@@ -5,10 +5,10 @@
     @apply p-1 text-slate-900 rounded outline-none focus:ring-2 focus:ring-offset-blue-600;
 }
 .tableNameDisclosureButton{
-    @apply font-medium text-white flex items-center justify-center space-x-2;
+    @apply font-semibold text-inherit  flex items-center justify-center space-x-2;
 }
 .setEditModeButton{
-    @apply shadow-none hover:bg-black hover:bg-opacity-10 active:bg-opacity-25 text-inherit;
+    @apply shadow-none hover:bg-black hover:bg-opacity-10 active:bg-opacity-25 text-white;
 }
 .columns{
     @apply divide-y dark:divide-black  transition-all text-xs;
@@ -20,7 +20,7 @@
     @apply flex justify-between items-center px-2 py-2;
 }
 .deleteTableButton{
-    @apply shadow-none hover:bg-black hover:bg-opacity-10 active:bg-opacity-25 text-inherit;
+    @apply shadow-none hover:bg-black hover:bg-opacity-10 active:bg-opacity-25 text-white;
 }
 .addColumnButton{
     @apply  border bg-fuchsia-500 text-white border-fuchsia-900 rounded-full shadow-none active:transform-none active:bg-fuchsia-900 active:text-white hover:bg-fuchsia-600;
