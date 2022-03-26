@@ -4,15 +4,15 @@ import { transitionDefaults } from '../../default_objects/table_defaults';
 interface Props {
     children: any;
     title: string;
-    mainIcon: React.FC;
+    mainIcon: any;
     alignment: "top" | "bottom" | "left" | "right";
     text?: string;
 }
 const DropDown: React.FC<Props> = ({ children, title, mainIcon, alignment, text }) => {
     return (
         <>
-            <Menu as="div" className="md:relative">
-                <Menu.Button as="button" className="btn text-base flex shadow-none dark:text-white">{text && text}{mainIcon}</Menu.Button>
+            <Menu as="div" className="md:relative flex justify-center items-center space-x-2">
+            {text && text}<Menu.Button as="div" className=" text-base flex justify-center shadow-none dark:text-white">{mainIcon}</Menu.Button>
                 <Transition
                     {...transitionDefaults}
                     as={Fragment}
