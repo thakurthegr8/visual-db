@@ -71,8 +71,7 @@ const Login = () => {
       <Head>
         <title>Visual-DB | Login</title>
       </Head>
-      <Navbar>
-
+      <Navbar isCollapsible={true}>
       </Navbar>
       <main className={LoginStyles.main}>
         <div className={LoginStyles.mainCard}>

@@ -1,0 +1,9 @@
+.dashboardButton {
+  @apply bg-fuchsia-500 rounded-full text-base text-white;
+}
+.loginButton {
+  @apply bg-transparent text-base font-semibold text-purple-500    shadow-none rounded-full border border-purple-500;
+}
+.tryVisualDbButton {
+  @apply bg-purple-500 rounded-full text-base text-white font-semibold;
+}
