@@ -6,6 +6,9 @@ import Head from 'next/head';
 import Navbar from "../components/Navbar/Navbar"
 import HomeStyles from '../styles/Home.module.css';
 import { UserContext } from './_app';
+import DashboardBtn from '../components/Elements/Buttons/DashboardBtn';
+import LoginBtn from '../components/Elements/Buttons/LoginBtn';
+import RegisterBtn from '../components/Elements/Buttons/RegisterBtn';
 
 const ImageLoader = () => {
   return `https://dl.dropboxusercontent.com/s/s6b9yf2zxvl7a2d/https___visual-db.netlify.app.png?dl=0`;
@@ -18,19 +21,12 @@ const Home: NextPage = () => {
       <Head>
         <title>Visual-DB</title>
       </Head>
-      <Navbar>
+      <Navbar isCollapsible={true}>
         {
-          user.isLoggedIn ? <Link href="/dashboard">
-            <button className={`btn ${HomeStyles.dashboardButton}`} role="application">Dashboard</button>
-          </Link> : <><Link href="/login">
-            <button className={`btn ${HomeStyles.loginButton}`} role="application">Login</button>
-          </Link>
-            <Link href="/register">
-              <button className={`btn ${HomeStyles.tryVisualDbButton}`} role="application">Try Visual-db</button>
-            </Link>
+          user.isLoggedIn ? <DashboardBtn /> : <><LoginBtn />
+            <RegisterBtn />
           </>
         }
-
       </Navbar>
       <main className={HomeStyles.main}>
         <section className={HomeStyles.mainSectionChild}>

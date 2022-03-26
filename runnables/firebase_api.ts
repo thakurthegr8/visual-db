@@ -152,3 +152,39 @@ export const loginUser = async (email: string, password: string) => {
     return err;
   }
 };
+export const getUserDetailsOnUID = async (uid: string) => {
+  return new Promise((resolve, reject) => {
+    const colRef = collection(db, "users");
+    const qry = query(colRef, where("uid", "==", uid));
+    try {
+      onSnapshot(qry, (snapshot) => {
+        const userData = snapshot.docs.map((doc) => {
+          const { email, name } = doc.data();
+          return {
+            email,
+            name,
+            id: doc.id,
+          };
+        });
+        resolve(userData[0]);
+      });
+    } catch (err) {
+      reject({ message: JSON.stringify });
+    }
+  });
+};
+export const saveUserDetails = async (
+  id: string,
+  name: string
+) => {
+  const fApp = initializeApp(firebaseConfig);
+  const docRef = doc(db, "users", id);
+  try {
+    await updateDoc(docRef, {
+      name: name,
+    });
+    return { message: `${name} successfully updated` };
+  } catch (e) {
+    return { message: `error in database updation` };
+  }
+};

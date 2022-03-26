@@ -11,7 +11,7 @@ const InputField: React.FC<Props> = ({ type, value, handler, placeholder }) => {
             required
             onChange={(e) => handler(e.target.value)}
             value={value}
-            className="p-3.5 sm:p-2 font-semibold transition focus:border-green-500 bg-white focus:outline-none bg-opacity-20 rounded  border border-accent-gray-light border-opacity-50"
+            className="p-3.5 sm:p-2 font-semibold transition focus:border-white bg-white focus:outline-none bg-opacity-20 rounded  border border-accent-gray-light border-opacity-50"
             type={type}
             placeholder={placeholder}
         />

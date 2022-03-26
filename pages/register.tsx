@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "./_app";
 import RegisterStyles from "../styles/Register.module.css";
@@ -16,7 +16,7 @@ const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [userData, setUserData] = useState<any>(null);
-  const {user,updateUser} = useContext(UserContext);
+  const { updateUser } = useContext(UserContext);
   const [signUpMessage, setSignUpMessage] = useState<{
     message: string;
     color: string;
@@ -41,13 +41,13 @@ const Login = () => {
         });
   }, [loading]);
   useEffect(() => {
-    if(userData){
-      if(Object.keys(userData).includes("message")){
+    if (userData) {
+      if (Object.keys(userData).includes("message")) {
         setSignUpMessage({
-          color:"red",
-          message:userData.message.code
+          color: "red",
+          message: userData.message.code
         })
-      }else{
+      } else {
         const { accessToken, expirationTime } = userData.user.stsTokenManager;
         const { uid } = userData.user;
         setSignUpMessage((signUpMessage) => ({
@@ -59,7 +59,7 @@ const Login = () => {
         document.cookie = `vdb_uid=${uid}`;
         updateUser({
           uid,
-          isLoggedIn:true
+          isLoggedIn: true
         });
         router.push(`/dashboard`);
       }
@@ -68,50 +68,49 @@ const Login = () => {
   }, [userData]);
   return (
     <>
-    <Head><title>Visual-DB | Register</title></Head>
-    <Navbar></Navbar>
-    <div className={RegisterStyles.main}>
-      <div className={RegisterStyles.mainCard}>
-        <h1 className={RegisterStyles.title}>
-          Visual-DB
-        </h1>
-        <h1 className={RegisterStyles.brandTitle}>Register</h1>
-        <form
-          className={RegisterStyles.form}
-          autoSave="true"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setLoading(true);
-          }}
-        >
-         <InputField type="email" value={email} handler={setEmail} placeholder="Enter email..." />
-         <InputField type="password" value={password} handler={setPassword} placeholder="Enter password..." />
-          <button
-            type="submit"
-            disabled={loading}
-            className={`btn ${RegisterStyles.signUpButton} ${
-              loading ? "bg-green-600" : "bg-green-500"
-            }`}
+      <Head><title>Visual-DB | Register</title></Head>
+      <Navbar isCollapsible={true}></Navbar>
+      <div className={RegisterStyles.main}>
+        <div className={RegisterStyles.mainCard}>
+          <h1 className={RegisterStyles.title}>
+            Visual-DB
+          </h1>
+          <h1 className={RegisterStyles.brandTitle}>Register</h1>
+          <form
+            className={RegisterStyles.form}
+            autoSave="true"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setLoading(true);
+            }}
           >
-            {loading ? (
-              <span className="loader-rounded border-green-400"></span>
-            ) : (
-              "Signup"
-            )}
-          </button>
-        </form>
-        <Link href="/login">
-        <button className={`btn ${RegisterStyles.loginButton}`}>
-          Login
-        </button>
-        </Link>
-        {signUpMessage.message.length > 0 && (
-          <span style={{ color: signUpMessage.color }}>
-            {signUpMessage.message}
-          </span>
-        )}
+            <InputField type="email" value={email} handler={setEmail} placeholder="Enter email..." />
+            <InputField type="password" value={password} handler={setPassword} placeholder="Enter password..." />
+            <button
+              type="submit"
+              disabled={loading}
+              className={`btn ${RegisterStyles.signUpButton} ${loading ? "bg-green-600" : "bg-green-500"
+                }`}
+            >
+              {loading ? (
+                <span className="loader-rounded border-green-400"></span>
+              ) : (
+                "Signup"
+              )}
+            </button>
+          </form>
+          <Link href="/login">
+            <button className={`btn ${RegisterStyles.loginButton}`}>
+              Login
+            </button>
+          </Link>
+          {signUpMessage.message.length > 0 && (
+            <span style={{ color: signUpMessage.color }}>
+              {signUpMessage.message}
+            </span>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 };

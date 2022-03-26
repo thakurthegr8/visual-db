@@ -23,5 +23,5 @@
 @apply bg-accent-gray-light w-full h-20 animate-pulse rounded-xl;
 }
 .signOutButton{
-@apply bg-red-800 text-white dark:bg-red-900 dark:text-red-200 border border-red-500 hover:border-red-300  font-normal uppercase;
+@apply bg-red-800 text-white dark:bg-red-900 dark:text-red-200 border border-red-500 hover:border-red-300 hover:text-white hover:opacity-100  font-normal uppercase;
 }
