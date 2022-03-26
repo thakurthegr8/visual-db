@@ -3,6 +3,7 @@ import { Actions } from '../../elements/Icons/Icons';
 import { tableSchema } from '../../types/Table';
 import DialogBox from '../DialogBox/DialogBox';
 import { Dialog } from '@headlessui/react';
+import { colorGenerator } from '../../generators/generators_color';
 interface Props {
     tableData: tableSchema;
 }
@@ -54,7 +55,7 @@ export const TableModel: React.FC<Props> = ({ tableData }) => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     return (
         <div className="column-layout transition row-span-1 dark:bg-black bg-white dark:bg-opacity-40 shadow-md dark:shadow-xl rounded-b rounded">
-            <div className="rounded-t p-2 text-white font-semibold bg-opacity-30 flex justify-between items-center" style={{ backgroundColor: tableData.color }}>
+            <div className="rounded-t p-2 text-white font-semibold bg-opacity-30 flex justify-between items-center" style={{...colorGenerator(tableData.color),borderTop:"4px solid"}}>
                 <span>{tableData.name}</span>
                 <button onClick={() => setDialogOpen(true)} className="btn shadow-none hover:bg-black hover:bg-opacity-10 active:bg-opacity-25 text-inherit"><Actions /></button>
                 <DialogBox isDialogOpen={isDialogOpen} setDialogOpen={setDialogOpen} >

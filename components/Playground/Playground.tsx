@@ -112,8 +112,8 @@ const Playground: React.FC = (props) => {
         loading ? <div className="h-full w-full col-span-3  border-accent-gray  bg-accent-gray-light rounded animate-pulse"></div> :
           <Masonry
             breakpointCols={cols}
-            className="flex col-span-3 gap-2 p-2 dark:bg-accent-gray"
-            columnClassName="flex flex-col gap-y-2"
+            className="flex col-span-3 gap-3 p-2 dark:bg-accent-gray"
+            columnClassName="flex flex-col gap-y-3"
           >
             {database.map((table, index) => (
               <TableModel key={index} tableData={table} />
