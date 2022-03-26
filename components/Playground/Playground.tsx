@@ -18,6 +18,7 @@ import Masonry from "react-masonry-css";
 import { getDatabaseDataOnDbID, saveDatabase } from "../../runnables/firebase_api";
 import { useRouter } from "next/router";
 import { UserContext } from "../../pages/_app";
+import Head from "next/head";
 
 
 const Sidebar: React.FC = ({ children }) => {
@@ -74,7 +75,8 @@ const Playground: React.FC = (props) => {
   }
 
   return (
-
+    <>
+    <Head><title>Playground</title></Head>
     <div className={playgroundStyles.mainGrid}>
       <Sidebar>
         <div className={playgroundStyles.sidebarAfterContainer}>
@@ -117,7 +119,9 @@ const Playground: React.FC = (props) => {
               <TableModel key={index} tableData={table} />
             ))}
           </Masonry>}
+          
     </div>
+    </>
   );
 };
 export default Playground;
