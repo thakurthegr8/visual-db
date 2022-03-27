@@ -1,5 +1,5 @@
 .mainGrid {
-  @apply py-1 flex flex-col lg:grid lg:grid-cols-4 h-screen;
+  @apply py-3 flex flex-col lg:grid lg:grid-cols-4 h-screen;
 }
 
 .sidebar {

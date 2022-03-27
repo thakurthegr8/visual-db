@@ -38,7 +38,7 @@ const TableEditor: React.FC<Props> = ({ data }) => {
               </div>
               </Disclosure.Button>
           }
-          <div className="space-x-2">
+          <div className="space-x-2 text-inherit">
             <button onClick={() => setEditMode(!isEditMode)} className={`btn ${tableEditorStyles.setEditModeButton}`}>
               <Pencil />
             </button>

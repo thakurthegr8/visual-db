@@ -72,7 +72,7 @@ export const getDatabaseDataOnDbID = async (
 ) => {
   const docRef = await doc(db, "user-1-database", id);
   try {
-    await onSnapshot(docRef, (doc: any) => {
+    const data = await onSnapshot(docRef, (doc: any) => {
       const { database, name } = doc.data();
       const docObj: databaseApiSchema = {
         database: JSON.parse(database),
@@ -83,7 +83,11 @@ export const getDatabaseDataOnDbID = async (
       setDbName(docObj.name);
       setDbId(docObj.id);
     });
+    if(data !== undefined){
+      return true;
+    }
   } catch (e) {
+    return false;
     console.log(e);
   }
 };

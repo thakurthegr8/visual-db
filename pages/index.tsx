@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
@@ -47,3 +47,17 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export const getServerSideProps:GetServerSideProps = async (context:GetServerSidePropsContext)=>{
+  const isLoggedIn = context.req.cookies["vdb_uid"];
+  if(isLoggedIn)
+  return {
+    redirect:{
+      permanent:false,
+      destination:"/dashboard"
+    }
+  }
+  return{
+    props:{}
+  }
+}
