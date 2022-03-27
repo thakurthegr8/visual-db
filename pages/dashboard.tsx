@@ -10,7 +10,7 @@ import { addDatabase } from "../runnables/firebase_api";
 import DashboardDBTile from "../components/DashboardDBTile/DashboardDBTile";
 import DashboardStyles from "../styles/Dashboard.module.css";
 import DropDown from "../components/DropDown/DropDown";
-import { ColorSwatch } from "../elements/Icons/Icons";
+import { ColorSwatch, User } from "../elements/Icons/Icons";
 import { Menu } from "@headlessui/react";
 import DialogBox from "../components/DialogBox/DialogBox";
 import InputField from "../components/InputField/InputField";
@@ -40,10 +40,10 @@ const Dashboard: FC<Props> = ({ uid, userData, userDetails }) => {
         <title>Dashboard</title>
       </Head>
       <Navbar isCollapsible={true}>
-        <DropDown alignment="bottom" text={userDetails.name.length !== 0 ? userDetails.name : "Unknown user"} title="" mainIcon={ColorSwatch}>
+        <DropDown alignment="bottom" text={userDetails.name.length !== 0 ? userDetails.name : "Unknown user"} title="" mainIcon={User}>
           <div className="flex flex-col items-stretch justify-stretch text-base ">
-            <Menu.Item onClick={() => setDialogOpen(true)} as="button" className="btn text-left hover:bg-accent-gray-light">Profile Settings</Menu.Item>
-            <Menu.Item as="button" className="btn text-left hover:bg-accent-gray-light"
+            <Menu.Item onClick={() => setDialogOpen(true)} as="button" className="btn  text-left hover:bg-accent-gray-light">Profile Settings</Menu.Item>
+            <Menu.Item as="button" className="btn bg-red-900 bg-opacity-50 text-red-500 text-left hover:bg-accent-gray-light"
               onClick={() => {
                 document.cookie =
                   "vdb_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

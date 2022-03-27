@@ -22,6 +22,9 @@
   .btn-gray-light {
     @apply bg-gray-50 active:bg-gray-100 text-white;
   }
+  .btn-secondary{
+    @apply bg-white dark:bg-black dark:text-gray-500 border;
+  }
   .column-layout {
     @apply flex flex-col;
   }
