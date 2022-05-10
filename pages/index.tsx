@@ -11,7 +11,7 @@ import LoginBtn from '../components/Elements/Buttons/LoginBtn';
 import RegisterBtn from '../components/Elements/Buttons/RegisterBtn';
 
 const ImageLoader = () => {
-  return `https://dl.dropboxusercontent.com/s/s6b9yf2zxvl7a2d/https___visual-db.netlify.app.png?dl=0`;
+  return `https://dl.dropboxusercontent.com/s/w941s5wjux2tikz/Playground.png?dl=0`;
 }
 
 const Home: NextPage = () => {
